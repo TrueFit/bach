@@ -1,16 +1,19 @@
 import React from 'react';
 import {REACT, PROPS} from '../util/constants';
 import CONSUMER from '../util/consumer';
+import newVariable from '../util/newVariable';
 
 export default (fn = CONSUMER) => {
+  const fnName = newVariable();
+
   return {
     dependencies: {
       [REACT]: React,
+      [fnName]: fn,
     },
     initialize: `${REACT}.useEffect(function () {
-        const fn = ${fn.toString()};
-        fn(${PROPS});
+        ${fnName}(${PROPS});
       }, [${PROPS}]);`,
-    props: [],
+    props: [fnName],
   };
 };
