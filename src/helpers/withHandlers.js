@@ -1,15 +1,13 @@
-import _ from 'lodash';
 import React from 'react';
 import {REACT, PROPS} from '../util/constants';
 import newVariable from '../util/newVariable';
 
 export default (map = {}) => {
-  const handles = _.reduce(
-    map,
-    (result, fn, key) => {
+  const handles = Object.keys(map).reduce(
+    (result, key) => {
       const alt = newVariable();
 
-      result.dependencies[alt] = fn;
+      result.dependencies[alt] = map[key];
       result.keys.push(key);
       result.functions.push(`
         const ${key} = ${REACT}.useCallback(function () {

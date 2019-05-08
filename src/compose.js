@@ -1,9 +1,7 @@
-import _ from 'lodash';
 import {PROPS} from './util/constants';
 
 const generateMap = helpers =>
-  _.reduce(
-    helpers,
+  helpers.reduce(
     (result, helper) => {
       result.dependencies = {
         ...result.dependencies,
@@ -29,8 +27,8 @@ const generateMap = helpers =>
 
 const generateWrapper = (helpers, Component) => {
   const map = generateMap(helpers);
-  const dependencyKeys = _.keys(map.dependencies);
-  const dependencyValues = _.values(map.dependencies);
+  const dependencyKeys = Object.keys(map.dependencies);
+  const dependencyValues = Object.values(map.dependencies);
   const blocks = map.blocks.join('\n');
 
   const generate = new Function(

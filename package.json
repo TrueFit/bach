@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/TrueFit/bach#readme",
   "dependencies": {
-    "lodash": "^4.17.11",
     "react": "^16.8.6"
   },
   "devDependencies": {

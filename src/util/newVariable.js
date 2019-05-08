@@ -6,7 +6,7 @@ const distributed = new Set();
 const newVariable = () => {
   const variable = [...Array(LENGTH)]
     .map(() => CHARACTERS[(Math.random() * CHARACTERS.length) | 0])
-    .join(``);
+    .join('');
 
   return distributed.has(variable)
     ? newVariable()
