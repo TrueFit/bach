@@ -47,15 +47,38 @@ export default compose(
 );
 ```
 
-### Other helpers
+### React hooks helpers
 
 TODO
+
+- withHandlers
+- withState
+- withEffect
+- withLifecycle
+
+### Other library helpers
+
+TODO
+
+- redux
+- react-material
 
 ### Creating your own helpers
 
 TODO
 
-## Hey, isn't this just Recompose
+- https://github.com/rehooks/
+- https://github.com/rehooks/awesome-react-hooks
+
+## Theory
+
+Anytime you do something different than the "norm", you are going to get different reactions. When that difference is something this fundamental, we think it's important to be transparent about our logical path. Below we attempt to explain what we are thinking, where we came from, and answer some common questions / objections. If after reading the content below, you still have something you want to discuss, please reach out.
+
+This topic is one that we feel strongly about, and you will definitely pick up that passion in the writing. So before we get up on our soapbox, we want to convey that we love React and the React team is awesome. We just happen to disagree on the syntatic approach they took with hooks.
+
+If you would like to learn more about Functional Programming in Javascript, we encourage you to read https://leanpub.com/composingsoftware.
+
+### Isn't this just Recompose
 
 [Recompose](https://github.com/acdlite/recompose) is definitely a large inspiration for Bach. The big difference is that the internal workings of Bach are based on React Hooks, rather than purely HOCs like Recompose was.
 
@@ -63,11 +86,11 @@ As users of recompose we definitely were influenced by the syntax of recompose a
 
 You can read more about the fate of recompose here: https://github.com/acdlite/recompose/issues/756#issuecomment-438674573).
 
-## Why not just use straight hooks
+### Why not just use straight hooks
 
-_TLDR: We think composing a component is more readable than hooks and we value readability highly_
+_TLDR: We think composing a component is more readable than hooks and we highly value that readability_
 
-Hooks were introduced in the fall of 2018 (https://www.youtube.com/watch?v=dpw9EHDh2bM) and they took the React community by storm (perhaps too fast in our opinion to be fully vetted </soapbox>). For good or for ill, hooks are definitely part of the future of React. In case you are here, and haven't done much with hooks yet, watch the video and read Dan Abromov's article here (https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib).
+Hooks were introduced in the fall of 2018 (https://www.youtube.com/watch?v=dpw9EHDh2bM) and they took the React community by storm (perhaps too fast in our opinion to be fully vetted </soapbox>). For good or for ill, hooks are definitely part of the future of React. In case you are here, and haven't done much with hooks yet, watch the video and read Dan Abramov's article here (https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib).
 
 While an exciting advance, the syntax of hooks leaves a lot to be desired imo, and we aren't alone:
 
@@ -79,21 +102,16 @@ While an exciting advance, the syntax of hooks leaves a lot to be desired imo, a
 
 In short, the standard React implementation of hooks creates side effects that aren't natural for functional programming. They introduce a "magic" that requires special knowledge. In both of the references above, Dan actually acknowledges this fact, but waives it off - we aren't willing to join him in doing so.
 
-## What about ...
+### What about ...
 
-### HOC Hell
+#### HOC Hell
 
 Overall, we took a different approach than most other "post recompose" libraries. Rather than continue down the path of pure HOC trees (which fall prey to HOC Hell referenced in pro-hook articles), we try to have the best of both worlds. We allow the users of this library to get the benefit of code readability through composition, while generating a resultant "condensed" component that follows React's rules for using hooks. While admittedly this is a little black magic, we think it proves very useful across a code base.
 
-### Other Implementations
+#### Other Implementations
 
 - [Rehook](https://github.com/Synvox/rehook)
   - We actually started using this library as we transitioned away from recompose. That said, the author has expressed that he views it as a "patch" for legacy code rather than a continuing library.
 - [React Compose Hooks](https://github.com/lucasconstantino/react-compose-hooks)
 - [Re-Enhance](https://github.com/cevr/re-enhance)
 - [react-hooks-composer](https://github.com/nudelx/react-hooks-composer)
-
-### I'm convinced, now what
-
-- https://github.com/rehooks/
-- https://github.com/rehooks/awesome-react-hooks
