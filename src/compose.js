@@ -2,6 +2,30 @@ import React from 'react';
 import {REACT, PROPS} from './util/constants';
 import generateNewVariable from './util/generateNewVariable.js';
 
+// DEBUG CODE
+const DEBUG = false;
+const DEBUG_COMPILE_ERROR = false;
+
+const debug = (map, blocks, error) => {
+  /* eslint-disable */
+  if (error) {
+    console.error(err);
+  }
+
+  console.log(map);
+  console.log(`
+    return function Bach(wrapperProps) {
+      const ${PROPS} = {...wrapperProps};
+
+      ${blocks}
+
+      return React.createElement(component, ${PROPS});
+    };
+  `);
+  /* eslint-enable */
+};
+
+// Actual Compose
 const generateMap = helpers => {
   const codeGenerationContext = {
     globalDependencies: {
@@ -43,11 +67,11 @@ const generateWrapper = (helpers, Component) => {
   const dependencyValues = Object.values(map.dependencies);
   const blocks = map.blocks.join('\n');
 
-  // try {
-  const generate = new Function(
-    ...dependencyKeys,
-    'component',
-    `
+  try {
+    const generate = new Function(
+      ...dependencyKeys,
+      'component',
+      `
       return function Bach(wrapperProps) {
         const ${PROPS} = {...wrapperProps};
 
@@ -56,22 +80,20 @@ const generateWrapper = (helpers, Component) => {
         return React.createElement(component, ${PROPS});
       };
       `,
-  );
+    );
 
-  return generate(...dependencyValues, Component);
-  // } catch (err) {
-  //   console.error(err);
-  //   console.log(map);
-  //   console.log(`
-  //     return function Bach(wrapperProps) {
-  //       const ${PROPS} = {...wrapperProps};
+    if (DEBUG) {
+      debug(map, blocks);
+    }
 
-  //       ${blocks}
-
-  //       return React.createElement(component, ${PROPS});
-  //     };
-  //     `);
-  // }
+    return generate(...dependencyValues, Component);
+  } catch (err) {
+    if (DEBUG_COMPILE_ERROR) {
+      debug(map, blocks, err);
+    } else {
+      throw err;
+    }
+  }
 };
 
 export default (...helpers) => Component => generateWrapper(helpers, Component);
