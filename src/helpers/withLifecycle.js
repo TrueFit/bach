@@ -1,8 +1,10 @@
-import React from 'react';
 import {REACT, PROPS} from '../util/constants';
 
-export default (lifecycle = {}) => ({generateNewVariable}) => {
-  const dependencies = {[REACT]: React};
+export default (lifecycle = {}) => ({
+  globalDependencies,
+  generateNewVariable,
+}) => {
+  const dependencies = {...globalDependencies};
 
   const map = {
     componentDidMount: null,

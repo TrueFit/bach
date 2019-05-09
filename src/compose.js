@@ -1,11 +1,17 @@
-import {PROPS} from './util/constants';
+import React from 'react';
+import {REACT, PROPS} from './util/constants';
 import generateNewVariable from './util/generateNewVariable.js';
 
 const generateMap = helpers => {
-  const generate = generateNewVariable();
+  const codeGenerationContext = {
+    globalDependencies: {
+      [REACT]: React,
+    },
+    generateNewVariable: generateNewVariable(),
+  };
 
   return helpers
-    .map(h => h({generateNewVariable: generate}))
+    .map(h => h(codeGenerationContext))
     .reduce(
       (result, helper) => {
         result.dependencies = {

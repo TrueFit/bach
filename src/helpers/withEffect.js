@@ -1,13 +1,15 @@
-import React from 'react';
 import {REACT, PROPS} from '../util/constants';
 import CONSUMER from '../util/consumer';
 
-export default (fn = CONSUMER) => ({generateNewVariable}) => {
+export default (fn = CONSUMER) => ({
+  globalDependencies,
+  generateNewVariable,
+}) => {
   const fnName = generateNewVariable();
 
   return {
     dependencies: {
-      [REACT]: React,
+      ...globalDependencies,
       [fnName]: fn,
     },
     initialize: `${REACT}.useEffect(function () {

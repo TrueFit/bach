@@ -1,12 +1,14 @@
-import React from 'react';
 import {REACT} from '../util/constants';
 
-export default (contextName, context) => ({generateNewVariable}) => {
+export default (contextName, context) => ({
+  globalDependencies,
+  generateNewVariable,
+}) => {
   const contextAlias = generateNewVariable();
 
   return {
     dependencies: {
-      [REACT]: React,
+      ...globalDependencies,
       [contextAlias]: context,
     },
     initialize: `const ${contextName} = ${REACT}.useContext(${contextAlias});`,
