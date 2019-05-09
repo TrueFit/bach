@@ -1,11 +1,13 @@
 import {REACT, PROPS} from '../util/constants';
 import CONSUMER from '../util/consumer';
+import generateConditionCode from '../util/generateConditionCode';
 
-export default (fn = CONSUMER) => ({
+export default (fn = CONSUMER, conditions) => ({
   globalDependencies,
   generateNewVariable,
 }) => {
   const fnName = generateNewVariable();
+  const conditionCode = generateConditionCode(conditions);
 
   return {
     dependencies: {
@@ -13,8 +15,8 @@ export default (fn = CONSUMER) => ({
       [fnName]: fn,
     },
     initialize: `${REACT}.useEffect(function () {
-        ${fnName}(${PROPS});
-      }, [${PROPS}]);`,
+        return ${fnName}(${PROPS});
+      }, [${conditionCode}]);`,
     props: [fnName],
   };
 };
