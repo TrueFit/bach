@@ -1,9 +1,8 @@
 import React from 'react';
 import {REACT} from '../util/constants';
-import newVariable from '../util/newVariable';
 
-export default (contextName, context) => {
-  const contextAlias = newVariable();
+export default (contextName, context) => ({generateNewVariable}) => {
+  const contextAlias = generateNewVariable();
 
   return {
     dependencies: {

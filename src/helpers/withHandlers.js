@@ -1,11 +1,10 @@
 import React from 'react';
 import {REACT, PROPS} from '../util/constants';
-import newVariable from '../util/newVariable';
 
-export default (map = {}) => {
+export default (map = {}) => ({generateNewVariable}) => {
   const handles = Object.keys(map).reduce(
     (result, key) => {
-      const alt = newVariable();
+      const alt = generateNewVariable();
 
       result.dependencies[alt] = map[key];
       result.keys.push(key);

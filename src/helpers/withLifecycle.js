@@ -1,8 +1,7 @@
 import React from 'react';
 import {REACT, PROPS} from '../util/constants';
-import newVariable from '../util/newVariable';
 
-export default (lifecycle = {}) => {
+export default (lifecycle = {}) => ({generateNewVariable}) => {
   const dependencies = {[REACT]: React};
 
   const map = {
@@ -12,7 +11,7 @@ export default (lifecycle = {}) => {
   };
 
   const mapLifecycle = event => {
-    map[event] = newVariable();
+    map[event] = generateNewVariable();
     dependencies[map[event]] = lifecycle[event];
   };
 

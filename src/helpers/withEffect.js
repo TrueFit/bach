@@ -1,10 +1,9 @@
 import React from 'react';
 import {REACT, PROPS} from '../util/constants';
 import CONSUMER from '../util/consumer';
-import newVariable from '../util/newVariable';
 
-export default (fn = CONSUMER) => {
-  const fnName = newVariable();
+export default (fn = CONSUMER) => ({generateNewVariable}) => {
+  const fnName = generateNewVariable();
 
   return {
     dependencies: {

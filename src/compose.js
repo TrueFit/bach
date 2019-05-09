@@ -1,29 +1,35 @@
 import {PROPS} from './util/constants';
+import generateNewVariable from './util/generateNewVariable.js';
 
-const generateMap = helpers =>
-  helpers.reduce(
-    (result, helper) => {
-      result.dependencies = {
-        ...result.dependencies,
-        ...helper.dependencies,
-      };
+const generateMap = helpers => {
+  const generate = generateNewVariable();
 
-      const propsAssignment = helper.props
-        .map(x => `${PROPS}.${x} = ${x};`)
-        .join('\n');
+  return helpers
+    .map(h => h({generateNewVariable: generate}))
+    .reduce(
+      (result, helper) => {
+        result.dependencies = {
+          ...result.dependencies,
+          ...helper.dependencies,
+        };
 
-      result.blocks.push(`
+        const propsAssignment = helper.props
+          .map(x => `${PROPS}.${x} = ${x};`)
+          .join('\n');
+
+        result.blocks.push(`
         ${helper.initialize}
         ${propsAssignment}
       `);
 
-      return result;
-    },
-    {
-      dependencies: {},
-      blocks: [],
-    },
-  );
+        return result;
+      },
+      {
+        dependencies: {},
+        blocks: [],
+      },
+    );
+};
 
 const generateWrapper = (helpers, Component) => {
   const map = generateMap(helpers);
@@ -42,7 +48,7 @@ const generateWrapper = (helpers, Component) => {
 
         return React.createElement(component, ${PROPS});
       };
-    `,
+      `,
   );
 
   return generate(...dependencyValues, Component);
