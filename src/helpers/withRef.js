@@ -1,6 +1,6 @@
 import {REACT} from '../util/constants';
 
-export default (stateName, stateUpdaterName, initialValue) => ({
+export default (refName, initialValue) => ({
   globalDependencies,
   generateNewVariable,
 }) => {
@@ -11,7 +11,7 @@ export default (stateName, stateUpdaterName, initialValue) => ({
       ...globalDependencies,
       [initialValueAlias]: initialValue,
     },
-    initialize: `const [${stateName}, ${stateUpdaterName}] = ${REACT}.useState(${initialValueAlias});`,
-    props: [stateName, stateUpdaterName],
+    initialize: `const ${refName} = ${REACT}.useRef(${initialValueAlias});`,
+    props: [refName],
   };
 };
