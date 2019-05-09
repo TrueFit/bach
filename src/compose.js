@@ -43,6 +43,7 @@ const generateWrapper = (helpers, Component) => {
   const dependencyValues = Object.values(map.dependencies);
   const blocks = map.blocks.join('\n');
 
+  // try {
   const generate = new Function(
     ...dependencyKeys,
     'component',
@@ -58,6 +59,19 @@ const generateWrapper = (helpers, Component) => {
   );
 
   return generate(...dependencyValues, Component);
+  // } catch (err) {
+  //   console.error(err);
+  //   console.log(map);
+  //   console.log(`
+  //     return function Bach(wrapperProps) {
+  //       const ${PROPS} = {...wrapperProps};
+
+  //       ${blocks}
+
+  //       return React.createElement(component, ${PROPS});
+  //     };
+  //     `);
+  // }
 };
 
 export default (...helpers) => Component => generateWrapper(helpers, Component);
