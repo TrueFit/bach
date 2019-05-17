@@ -26,7 +26,7 @@ const debug = (map, blocks, error) => {
 };
 
 // Actual Compose
-const generateMap = helpers => {
+const generateMap = enhancers => {
   const codeGenerationContext = {
     globalDependencies: {
       [REACT]: React,
@@ -34,21 +34,21 @@ const generateMap = helpers => {
     generateNewVariable: generateNewVariable(),
   };
 
-  return helpers
+  return enhancers
     .map(h => h(codeGenerationContext))
     .reduce(
-      (result, helper) => {
+      (result, enhancer) => {
         result.dependencies = {
           ...result.dependencies,
-          ...helper.dependencies,
+          ...enhancer.dependencies,
         };
 
-        const propsAssignment = helper.props
+        const propsAssignment = enhancer.props
           .map(x => `${PROPS}.${x} = ${x};`)
           .join('\n');
 
         result.blocks.push(`
-        ${helper.initialize}
+        ${enhancer.initialize}
         ${propsAssignment}
       `);
 
@@ -61,8 +61,8 @@ const generateMap = helpers => {
     );
 };
 
-const generateWrapper = (helpers, Component) => {
-  const map = generateMap(helpers);
+const generateWrapper = (enhancers, Component) => {
+  const map = generateMap(enhancers);
   const dependencyKeys = Object.keys(map.dependencies);
   const dependencyValues = Object.values(map.dependencies);
   const blocks = map.blocks.join('\n');
@@ -96,4 +96,4 @@ const generateWrapper = (helpers, Component) => {
   }
 };
 
-export default (...helpers) => Component => generateWrapper(helpers, Component);
+export default (...enhancers) => Component => generateWrapper(enhancers, Component);
