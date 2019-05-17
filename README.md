@@ -504,7 +504,7 @@ This library implements many of the enhancers found in the recompose library tha
 
 ### Creating your own enhancers
 
-We highly encourage you to write your own enhancers. If you come up with one that is applicable to the larger community (for example, wrapping a different React-CSS framework), please contact us so that we can add it to the list above.
+We would love to see members of the community add their own enhancers. If you come up with one that is applicable to the larger community (for example, wrapping a different React-CSS framework), please contact us so that we can add it to the list above.
 
 To create your own enhancers, you need to pass a function to the compose method that returns a js object with the required properties. This is typically done as the result of a curried function, you can check the source code of existing enhancers for reference.
 
@@ -562,7 +562,7 @@ In closing, we wanted to share some links that had effects on our thinking when 
 - [React Compose Hooks](https://github.com/lucasconstantino/react-compose-hooks)
 - [react-hooks-composer](https://github.com/nudelx/react-hooks-composer)
 
-### Other opinions on hook syntax
+### "Alternative" opinions on hook syntax
 
 - https://medium.com/ottofellercom/can-react-hooks-api-replace-recompose-ea5460b7fde3
 - https://stateofprogress.blog/the-biggest-lies-about-react-hooks-29aa306e354f
