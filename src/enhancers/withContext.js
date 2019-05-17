@@ -1,17 +1,11 @@
-import {REACT} from '../util/constants';
+import {REACT, PROPS} from '../util/constants';
 
-export default (contextName, context) => ({
-  globalDependencies,
-  generateNewVariable,
-}) => {
-  const contextAlias = generateNewVariable();
+export default (propertyNames = [], contextName) => ({globalDependencies}) => {
+  const contextProps = propertyNames.join(',');
 
   return {
-    dependencies: {
-      ...globalDependencies,
-      [contextAlias]: context,
-    },
-    initialize: `const ${contextName} = ${REACT}.useContext(${contextAlias});`,
-    props: [contextName],
+    dependencies: globalDependencies,
+    initialize: `const ${contextProps} = ${REACT}.useContext(${PROPS}.${contextName});`,
+    props: propertyNames,
   };
 };
