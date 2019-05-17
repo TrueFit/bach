@@ -5,7 +5,7 @@ export default (propertyNames = [], contextName) => ({globalDependencies}) => {
 
   return {
     dependencies: globalDependencies,
-    initialize: `const ${contextProps} = ${REACT}.useContext(${PROPS}.${contextName});`,
+    initialize: `const {${contextProps}} = ${REACT}.useContext(${PROPS}.${contextName});`,
     props: propertyNames,
   };
 };
