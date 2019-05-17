@@ -1,14 +1,12 @@
+import React from 'react';
 import {REACT} from '../util/constants';
 
-export default (refName, initialValue) => ({
-  globalDependencies,
-  generateNewVariable,
-}) => {
+export default (refName, initialValue) => ({generateNewVariable}) => {
   const initialValueAlias = generateNewVariable();
 
   return {
     dependencies: {
-      ...globalDependencies,
+      [REACT]: React,
       [initialValueAlias]: initialValue,
     },
     initialize: `const ${refName} = ${REACT}.useRef(${initialValueAlias});`,

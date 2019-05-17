@@ -1,6 +1,7 @@
+import React from 'react';
 import {REACT, PROPS} from '../util/constants';
 
-export default (map = {}) => ({globalDependencies, generateNewVariable}) => {
+export default (map = {}) => ({generateNewVariable}) => {
   const handles = Object.keys(map).reduce(
     (result, key) => {
       const alt = generateNewVariable();
@@ -24,7 +25,7 @@ export default (map = {}) => ({globalDependencies, generateNewVariable}) => {
 
   return {
     dependencies: {
-      ...globalDependencies,
+      [REACT]: React,
       ...handles.dependencies,
     },
     initialize: handles.functions.join('\n'),

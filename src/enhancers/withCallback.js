@@ -1,9 +1,9 @@
+import React from 'react';
 import {REACT, PROPS} from '../util/constants';
 import CONSUMER from '../util/consumer';
 import generateConditionCode from '../util/generateConditionCode';
 
 export default (callbackName, fn = CONSUMER, conditions) => ({
-  globalDependencies,
   generateNewVariable,
 }) => {
   const fnName = generateNewVariable();
@@ -11,7 +11,7 @@ export default (callbackName, fn = CONSUMER, conditions) => ({
 
   return {
     dependencies: {
-      ...globalDependencies,
+      [REACT]: React,
       [fnName]: fn,
     },
     initialize: `const ${callbackName} = ${REACT}.useCallback(function () {

@@ -512,10 +512,9 @@ To create your own enhancers, you need to pass a function to the compose method 
 
 The function will be invoked with a js object. This object contains the following properties that we found to be helpful or required across multiple enhancers. You are not required to use anything from this object - not everything applies to every instance.
 
-| Property            | Type      | Description                                                                                                                                                                                                                       |
-| ------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| globalDependencies  | js object | a map of the dependencies shared across all enhancers. this is {REACT: react} currently                                                                                                                                           |
-| generateNewVariable | function  | a utility function that will generate a random 16 character string that can be used as a variable name in your initialize code. These strings are guaranteed to be unique inside the scope of the single HOC component generated. |
+| Property            | Type     | Description                                                                                                                                                                                                                       |
+| ------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| generateNewVariable | function | a utility function that will generate a random 16 character string that can be used as a variable name in your initialize code. These strings are guaranteed to be unique inside the scope of the single HOC component generated. |
 
 #### Return Object
 

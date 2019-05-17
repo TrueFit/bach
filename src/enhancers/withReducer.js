@@ -1,7 +1,7 @@
+import React from 'react';
 import {REACT} from '../util/constants';
 
 export default (reducerName, reducer, initialValue, init) => ({
-  globalDependencies,
   generateNewVariable,
 }) => {
   const reducerDispatch = `${reducerName}Dispatch`;
@@ -11,7 +11,7 @@ export default (reducerName, reducer, initialValue, init) => ({
 
   return {
     dependencies: {
-      ...globalDependencies,
+      [REACT]: React,
       [reducerAlias]: reducer,
       [initialValueAlias]: initialValue,
       [initAlias]: init,

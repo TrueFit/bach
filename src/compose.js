@@ -1,5 +1,4 @@
-import React from 'react';
-import {REACT, PROPS} from './util/constants';
+import {PROPS} from './util/constants';
 import generateNewVariable from './util/generateNewVariable.js';
 
 // DEBUG CODE
@@ -28,9 +27,6 @@ const debug = (map, blocks, error) => {
 // Actual Compose
 const generateMap = enhancers => {
   const codeGenerationContext = {
-    globalDependencies: {
-      [REACT]: React,
-    },
     generateNewVariable: generateNewVariable(),
   };
 
@@ -96,4 +92,5 @@ const generateWrapper = (enhancers, Component) => {
   }
 };
 
-export default (...enhancers) => Component => generateWrapper(enhancers, Component);
+export default (...enhancers) => Component =>
+  generateWrapper(enhancers, Component);
