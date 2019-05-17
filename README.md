@@ -73,11 +73,12 @@ _Order matters:_ we keep the definition of the generated code in the same order 
 Creates a memoized callback passed to component with the name specified.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| callbackName | string | the name of the callback in the props passed to the wrapped component |
-| fn | js function | the function to invoke when the callback is invoked by the component |
-| conditions | array of strings | names of the properties on the props object react should restrict the revaluation of this callback to |
+
+| Parameter    | Type             | Description                                                                                           |
+| ------------ | ---------------- | ----------------------------------------------------------------------------------------------------- |
+| callbackName | string           | the name of the callback in the props passed to the wrapped component                                 |
+| fn           | js function      | the function to invoke when the callback is invoked by the component                                  |
+| conditions   | array of strings | names of the properties on the props object react should restrict the revaluation of this callback to |
 
 _Example_
 
@@ -109,10 +110,11 @@ _React Hook_
 Accepts a context object and returns the current context value for that context.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
+
+| Parameter       | Type             | Description                                                                                        |
+| --------------- | ---------------- | -------------------------------------------------------------------------------------------------- |
 | contextProperty | array of strings | the names of the props in the context that are mapped to the props passed to the wrapped component |
-| contextName | string | the name of the prop in the HOC that points to the context to use as source |
+| contextName     | string           | the name of the prop in the HOC that points to the context to use as source                        |
 
 _Example_
 
@@ -151,9 +153,10 @@ _React Hook_
 Accepts a function that contains imperative, possibly effect creating code.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| fn | js function | the function to invoke when the values of properties change on the wrapped component |
+
+| Parameter  | Type             | Description                                                                                     |
+| ---------- | ---------------- | ----------------------------------------------------------------------------------------------- |
+| fn         | js function      | the function to invoke when the values of properties change on the wrapped component            |
 | conditions | array of strings | names of the properties on the props object react should restrict the firing of the function to |
 
 _Example_
@@ -184,9 +187,10 @@ _React Hook_
 Like withEffect, but used for the times when invocation cannot be deferred, thus it fires synchronously after all DOM mutations.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| fn | js function | the function to invoke when the values of properties change on the wrapped component |
+
+| Parameter  | Type             | Description                                                                                     |
+| ---------- | ---------------- | ----------------------------------------------------------------------------------------------- |
+| fn         | js function      | the function to invoke when the values of properties change on the wrapped component            |
 | conditions | array of strings | names of the properties on the props object react should restrict the firing of the function to |
 
 _Example_
@@ -217,9 +221,10 @@ _React Hook_
 Although not directly tied to a React hook, withHandlers allows you to quickly define multiple withCallback instances in one go. This helper was common in code that used recompose.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| map | js object | a js object that contains a map of keys and functions. Each key will be passed to the wrapped component. |
+
+| Parameter | Type      | Description                                                                                              |
+| --------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| map       | js object | a js object that contains a map of keys and functions. Each key will be passed to the wrapped component. |
 
 _Example_
 
@@ -260,9 +265,10 @@ _Underlying React Hook_
 Although not directly tied to a React hook, withLifecycle allows for more readable code when dealing with the traditional component lifecycle. We use the traditional function names componentDidMount, componentDidUpdate, and componentWillUnmount.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| map | js object | a js object that contains a map of keys and functions. The allowed keys are componentDidMount, componentDidUpdate, and componentWillUnmount. |
+
+| Parameter | Type      | Description                                                                                                                                  |
+| --------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| map       | js object | a js object that contains a map of keys and functions. The allowed keys are componentDidMount, componentDidUpdate, and componentWillUnmount. |
 
 _Example_
 
@@ -303,10 +309,11 @@ _Underlying React Hooks_
 Creates a memoized value.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| memoName | string | the name of the memoized value in the props passed to the wrapped component |
-| fn | js function | the function to invoke to produce the memoized value |
+
+| Parameter  | Type             | Description                                                                                     |
+| ---------- | ---------------- | ----------------------------------------------------------------------------------------------- |
+| memoName   | string           | the name of the memoized value in the props passed to the wrapped component                     |
+| fn         | js function      | the function to invoke to produce the memoized value                                            |
 | conditions | array of strings | names of the properties on the props object react should restrict the firing of the function to |
 
 _Example_
@@ -342,12 +349,13 @@ An alternative to useState. Accepts a reducer of type (state, action) => newStat
 @truefit/bach will create a dispatchProperty in props with the format `${reducerName}Dispatch`.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| reducerName | string | the name of the reducer value in the props passed to the wrapped component |
-| reducer | js function | the reducer function that conforms to the signature (state, action) => newState |
-| initialValue | any | the initial value of the reducer |
-| init | js function | a function that returns the initial value of the reducer the 1st time the reducer is invoked. Used for lazy initialization of the reducer. |
+
+| Parameter    | Type        | Description                                                                                                                                |
+| ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| reducerName  | string      | the name of the reducer value in the props passed to the wrapped component                                                                 |
+| reducer      | js function | the reducer function that conforms to the signature (state, action) => newState                                                            |
+| initialValue | any         | the initial value of the reducer                                                                                                           |
+| init         | js function | a function that returns the initial value of the reducer the 1st time the reducer is invoked. Used for lazy initialization of the reducer. |
 
 _Example_
 
@@ -400,10 +408,11 @@ _React Hook_
 Creates a mutable ref object whose .current property is initialized to the passed argument (initialValue). The returned object will persist for the full lifetime of the component.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| refName | string | the name of the ref pointer in the props passed to the wrapped component |
-| initialValue | any | the initial value of the ref.current |
+
+| Parameter    | Type   | Description                                                              |
+| ------------ | ------ | ------------------------------------------------------------------------ |
+| refName      | string | the name of the ref pointer in the props passed to the wrapped component |
+| initialValue | any    | the initial value of the ref.current                                     |
 
 _Example_
 
@@ -447,11 +456,12 @@ _React Hook_
 Creates a stateful value, and a function to update it.
 
 _Helper Signature_
-| Parameter | Type | Description |
-| ------------ | ---------------- | --------------------------------------------------------------------------------------- |
-| stateName | string | the name of the state value in the props passed to the wrapped component |
+
+| Parameter        | Type   | Description                                                                                               |
+| ---------------- | ------ | --------------------------------------------------------------------------------------------------------- |
+| stateName        | string | the name of the state value in the props passed to the wrapped component                                  |
 | stateUpdaterName | string | the name of the function in the props passed to the wrapped component that will update state when invoked |
-| initialValue | any | the initial value of the state |
+| initialValue     | any    | the initial value of the state                                                                            |
 
 _Example_
 
