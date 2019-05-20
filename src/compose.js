@@ -41,9 +41,9 @@ const generateMap = enhancers => {
           .join('\n');
 
         result.blocks.push(`
-        ${enhancer.initialize}
-        ${propsAssignment}
-      `);
+          ${enhancer.initialize}
+          ${propsAssignment}
+        `);
 
         return result;
       },
@@ -81,11 +81,11 @@ const generateWrapper = (enhancers, Component, options) => {
 
     return generate(...dependencyValues, Component);
   } catch (err) {
-    if (options.debugCompileError) {
+    if (options.debug) {
       debug(map, blocks, err);
-    } else {
-      throw err;
     }
+
+    throw err;
   }
 };
 
