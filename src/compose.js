@@ -2,9 +2,6 @@ import {PROPS} from './util/constants';
 import generateNewVariable from './util/generateNewVariable.js';
 
 // DEBUG CODE
-const DEBUG = false;
-const DEBUG_COMPILE_ERROR = false;
-
 const debug = (map, blocks, error) => {
   /* eslint-disable */
   if (error) {
@@ -57,7 +54,7 @@ const generateMap = enhancers => {
     );
 };
 
-const generateWrapper = (enhancers, Component) => {
+const generateWrapper = (enhancers, Component, options) => {
   const map = generateMap(enhancers);
   const dependencyKeys = Object.keys(map.dependencies);
   const dependencyValues = Object.values(map.dependencies);
@@ -78,13 +75,13 @@ const generateWrapper = (enhancers, Component) => {
       `,
     );
 
-    if (DEBUG) {
+    if (options.debug) {
       debug(map, blocks);
     }
 
     return generate(...dependencyValues, Component);
   } catch (err) {
-    if (DEBUG_COMPILE_ERROR) {
+    if (options.debugCompileError) {
       debug(map, blocks, err);
     } else {
       throw err;
@@ -92,5 +89,5 @@ const generateWrapper = (enhancers, Component) => {
   }
 };
 
-export default (...enhancers) => Component =>
-  generateWrapper(enhancers, Component);
+export default (...enhancers) => (Component, options = {}) =>
+  generateWrapper(enhancers, Component, options);
