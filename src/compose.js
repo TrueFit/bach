@@ -36,6 +36,10 @@ const generateMap = enhancers => {
 };
 
 export default (...enhancers) => (Component, options = {}) => {
+  if (enhancers.length === 0) {
+    return Component;
+  }
+  
   const map = generateMap(enhancers);
 
   const keys = Object.keys(map.dependencies).join(',');
