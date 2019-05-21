@@ -1,6 +1,6 @@
 {
   "name": "@truefit/bach",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "compose your react components in style",
   "main": "lib/index.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",

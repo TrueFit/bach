@@ -1,5 +1,5 @@
 import React from 'react';
-import {REACT, PROPS} from './util/constants';
+import {REACT, PROPS, COMPONENT} from './util/constants';
 import generateNewVariable from './util/generateNewVariable.js';
 
 // Actual Compose
@@ -35,47 +35,39 @@ const generateMap = enhancers => {
     );
 };
 
-const generateWrapper = (enhancers, Component, options) => {
+export default (...enhancers) => (Component, options = {}) => {
   const map = generateMap(enhancers);
-  const dependencyKeys = Object.keys(map.dependencies);
-  const dependencyValues = Object.values(map.dependencies);
-  const blocks = map.blocks.join('\n');
 
-  if (options.debug) {
+  const keys = Object.keys(map.dependencies).join(',');
+  const blocks = map.blocks.join('\n');
+  const breakpoint = options.debug?.breakpoint ? 'debugger;' : '';
+
+  if (options.debug?.log) {
     console.log(map); // eslint-disable-line
   }
 
-  try {
-    const generate = new Function(
-      ...dependencyKeys,
-      REACT,
-      'component',
-      `
-      return function Bach(wrapperProps) {
-        const ${PROPS} = {...wrapperProps};
+  const hocDef = new Function(
+    'wrapperProps',
+    `
+      ${breakpoint}
+      const ${PROPS} = Object.assign({}, wrapperProps);
+      const {${keys}, ${REACT}, ${COMPONENT}} = this;
 
-        ${blocks}
+      ${blocks};
 
-        return ${REACT}.createElement(component, ${PROPS});
-      };
-      `,
-    );
+      return ${REACT}.createElement(${COMPONENT}, ${PROPS});
+    `,
+  );
 
-    const hoc = generate(...dependencyValues, React, Component);
-    if (options.debug) {
-      console.log(hoc); // eslint-disable-line
-      console.log(hoc.toString()); // eslint-disable-line
-    }
+  const hoc = hocDef.bind({
+    [REACT]: React,
+    [COMPONENT]: Component,
+    ...map.dependencies,
+  });
 
-    return hoc;
-  } catch (err) {
-    if (options.debug) {
-      console.error(err); // eslint-disable-line
-    }
-
-    throw err;
+  if (options.debug?.log) {
+    console.log(hoc); // eslint-disable-line
   }
-};
 
-export default (...enhancers) => (Component, options = {}) =>
-  generateWrapper(enhancers, Component, options);
+  return hoc;
+};

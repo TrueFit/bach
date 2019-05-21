@@ -216,50 +216,6 @@ _React Hook_
 
 [useLayoutEffect](https://reactjs.org/docs/hooks-reference.html#uselayouteffect)
 
-#### withHandlers
-
-Although not directly tied to a React hook, withHandlers allows you to quickly define multiple withCallback instances in one go. This helper was common in code that used recompose.
-
-_Helper Signature_
-
-| Parameter | Type      | Description                                                                                              |
-| --------- | --------- | -------------------------------------------------------------------------------------------------------- |
-| map       | js object | a js object that contains a map of keys and functions. Each key will be passed to the wrapped component. |
-
-_Example_
-
-```
-import React from 'react';
-import {compose, withHandlers} from '@truefit/bach';
-
-const Component = ({sayHello, sayGoodbye}) => (
-  <div>
-    <h1>With Handlers</h1>
-    <div>
-      <button onClick={sayHello}>Say Hello</button>
-    </div>
-    <div>
-      <button onClick={sayGoodbye}>Say Goodbye</button>
-    </div>
-  </div>
-);
-
-export default compose(
-  withHandlers({
-    sayHello: (props) => {
-      console.log('Hello');
-    },
-    sayGoodbye: (props) => {
-      console.log('Goodbye');
-    },
-  }),
-)(Component);
-```
-
-_Underlying React Hook_
-
-[useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect)
-
 #### withMemo
 
 Creates a memoized value.
@@ -482,7 +438,7 @@ The function will be invoked with a js object. This object contains the followin
 
 #### Initialize
 
-As mentioned above, we wanted to keep the levels of HOC to a max of one. To accomplish this goal, rather than have a series of functions, we need each enhancer to actually expose the code it requires to work. The compose method combines all of these string of code into a single HOC at runtime. Under the covers, compose use [`new Function()`](https://remarkablemark.org/blog/2018/05/15/javascript-eval-vs-function/) to accomplish this transformation.
+As mentioned above, we wanted to keep the levels of HOC to a max of one. To accomplish this goal, rather than have a series of functions, we need each enhancer to actually expose the code it requires to work. The compose method combines all of these string of code into a single HOC at runtime. Under the covers, compose uses [`new Function()`](https://remarkablemark.org/blog/2018/05/15/javascript-eval-vs-function/) to accomplish this transformation.
 
 Thus there are a couple of important ideas to keep in mind when writing your initialize implementation code:
 
