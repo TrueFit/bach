@@ -1,5 +1,4 @@
-import React from 'react';
-import {REACT} from '../util/constants';
+import {useState} from 'react';
 
 export default (stateName, stateUpdaterName, initialValue) => ({
   generateNewVariable,
@@ -8,10 +7,10 @@ export default (stateName, stateUpdaterName, initialValue) => ({
 
   return {
     dependencies: {
-      [REACT]: React,
+      useState,
       [initialValueAlias]: initialValue,
     },
-    initialize: `const [${stateName}, ${stateUpdaterName}] = ${REACT}.useState(${initialValueAlias});`,
+    initialize: `const [${stateName}, ${stateUpdaterName}] = useState(${initialValueAlias});`,
     props: [stateName, stateUpdaterName],
   };
 };

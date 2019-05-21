@@ -1,5 +1,4 @@
-import React from 'react';
-import {REACT} from '../util/constants';
+import {useReducer} from 'react';
 
 export default (reducerName, reducer, initialValue, init) => ({
   generateNewVariable,
@@ -11,13 +10,13 @@ export default (reducerName, reducer, initialValue, init) => ({
 
   return {
     dependencies: {
-      [REACT]: React,
+      useReducer,
       [reducerAlias]: reducer,
       [initialValueAlias]: initialValue,
       [initAlias]: init,
     },
     initialize: `
-      const [${reducerName}, ${reducerDispatch}] = ${REACT}.useReducer(${reducerAlias}, ${initialValueAlias}, ${initAlias});
+      const [${reducerName}, ${reducerDispatch}] = useReducer(${reducerAlias}, ${initialValueAlias}, ${initAlias});
     `,
     props: [reducerName, reducerDispatch],
   };

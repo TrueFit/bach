@@ -1,25 +1,6 @@
-import {PROPS} from './util/constants';
+import React from 'react';
+import {REACT, PROPS} from './util/constants';
 import generateNewVariable from './util/generateNewVariable.js';
-
-// DEBUG CODE
-const debug = (map, blocks, error) => {
-  /* eslint-disable */
-  if (error) {
-    console.error(err);
-  }
-
-  console.log(map);
-  console.log(`
-    return function Bach(wrapperProps) {
-      const ${PROPS} = {...wrapperProps};
-
-      ${blocks}
-
-      return React.createElement(component, ${PROPS});
-    };
-  `);
-  /* eslint-enable */
-};
 
 // Actual Compose
 const generateMap = enhancers => {
@@ -60,9 +41,14 @@ const generateWrapper = (enhancers, Component, options) => {
   const dependencyValues = Object.values(map.dependencies);
   const blocks = map.blocks.join('\n');
 
+  if (options.debug) {
+    console.log(map); // eslint-disable-line
+  }
+
   try {
     const generate = new Function(
       ...dependencyKeys,
+      REACT,
       'component',
       `
       return function Bach(wrapperProps) {
@@ -70,19 +56,21 @@ const generateWrapper = (enhancers, Component, options) => {
 
         ${blocks}
 
-        return React.createElement(component, ${PROPS});
+        return ${REACT}.createElement(component, ${PROPS});
       };
       `,
     );
 
+    const hoc = generate(...dependencyValues, React, Component);
     if (options.debug) {
-      debug(map, blocks);
+      console.log(hoc); // eslint-disable-line
+      console.log(hoc.toString()); // eslint-disable-line
     }
 
-    return generate(...dependencyValues, Component);
+    return hoc;
   } catch (err) {
     if (options.debug) {
-      debug(map, blocks, err);
+      console.error(err); // eslint-disable-line
     }
 
     throw err;

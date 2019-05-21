@@ -1,14 +1,14 @@
-import React from 'react';
-import {REACT, PROPS} from '../util/constants';
+import {useContext} from 'react';
+import {PROPS} from '../util/constants';
 
 export default (propertyNames = [], contextName) => () => {
   const contextProps = propertyNames.join(',');
 
   return {
     dependencies: {
-      [REACT]: React,
+      useContext,
     },
-    initialize: `const {${contextProps}} = ${REACT}.useContext(${PROPS}.${contextName});`,
+    initialize: `const {${contextProps}} = useContext(${PROPS}.${contextName});`,
     props: propertyNames,
   };
 };

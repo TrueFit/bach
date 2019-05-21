@@ -1,18 +1,17 @@
-import React from 'react';
-import {REACT, PROPS} from '../util/constants';
-import CONSUMER from '../util/consumer';
+import {useLayoutEffect} from 'react';
+import {PROPS} from '../util/constants';
 import generateConditionCode from '../util/generateConditionCode';
 
-export default (fn = CONSUMER, conditions) => ({generateNewVariable}) => {
+export default (fn, conditions) => ({generateNewVariable}) => {
   const fnName = generateNewVariable();
   const conditionCode = generateConditionCode(conditions);
 
   return {
     dependencies: {
-      [REACT]: React,
+      useLayoutEffect,
       [fnName]: fn,
     },
-    initialize: `${REACT}.useLayoutEffect(function () {
+    initialize: `useLayoutEffect(function () {
         return ${fnName}(${PROPS});
       }, [${conditionCode}]);`,
     props: [fnName],

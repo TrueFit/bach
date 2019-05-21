@@ -260,50 +260,6 @@ _Underlying React Hook_
 
 [useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect)
 
-#### withLifecycle
-
-Although not directly tied to a React hook, withLifecycle allows for more readable code when dealing with the traditional component lifecycle. We use the traditional function names componentDidMount, componentDidUpdate, and componentWillUnmount.
-
-_Helper Signature_
-
-| Parameter | Type      | Description                                                                                                                                  |
-| --------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| map       | js object | a js object that contains a map of keys and functions. The allowed keys are componentDidMount, componentDidUpdate, and componentWillUnmount. |
-
-_Example_
-
-```
-import React from 'react';
-import {compose, withLifecycle} from '@truefit/bach';
-
-const Component = () => (
-  <div>
-    <h1>With Lifecycle</h1>
-  </div>
-);
-
-export default compose(
-  withLifecycle({
-    componentDidMount: (props) => {
-      console.log('Component Did Mount: ', props);
-    },
-
-    componentDidUpdate: (props, prevProps) => {
-      console.log('Component Did Update', props, prevProps);
-    },
-
-    componentWillUnmount: (props) => {
-      console.log('Component Will Unmount', props);
-    },
-  }),
-)(Component);
-```
-
-_Underlying React Hooks_
-
-[useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect)
-[useRef](https://reactjs.org/docs/hooks-reference.html#useref)
-
 #### withMemo
 
 Creates a memoized value.
