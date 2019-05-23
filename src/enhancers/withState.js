@@ -4,7 +4,7 @@ export default (stateName, stateUpdaterName, initialValue) => ({
   generateNewVariable,
 }) => {
   const initialValueAlias = generateNewVariable();
-  const stateValue = `${stateName}Value`;
+  const stateValue = generateNewVariable();
 
   return {
     dependencies: {

@@ -2,8 +2,8 @@ import {useContext} from 'react';
 import {PROPS} from '../util/constants';
 import generateAssignments from '../util/generateAssignments.js';
 
-export default (propertyNames = [], contextName) => () => {
-  const context = 'contextValue';
+export default (propertyNames = [], contextName) => ({generateNewVariable}) => {
+  const context = generateNewVariable();
   const assignments = generateAssignments(propertyNames, context);
 
   return {

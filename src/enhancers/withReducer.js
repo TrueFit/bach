@@ -4,7 +4,7 @@ export default (reducerName, reducer, initialValue, init) => ({
   generateNewVariable,
 }) => {
   const reducerDispatch = `${reducerName}Dispatch`;
-  const reducerValue = `${reducerName}Value`;
+  const reducerValue = generateNewVariable();
   const reducerAlias = generateNewVariable();
 
   const initialValueAlias = generateNewVariable();
