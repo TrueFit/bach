@@ -1,6 +1,7 @@
 import React from 'react';
 import {REACT, PROPS, COMPONENT} from './util/constants';
 import generateNewVariable from './util/generateNewVariable.js';
+import generateAssignments from './util/generateAssignments.js';
 
 // Actual Compose
 const generateMap = enhancers => {
@@ -39,12 +40,13 @@ export default (...enhancers) => (Component, options = {}) => {
   if (enhancers.length === 0) {
     return Component;
   }
-  
+
   const map = generateMap(enhancers);
 
   const keys = Object.keys(map.dependencies).join(',');
   const blocks = map.blocks.join('\n');
   const breakpoint = options.debug?.breakpoint ? 'debugger;' : '';
+  const assignments = generateAssignments([...keys, REACT, COMPONENT], 'this');
 
   if (options.debug?.log) {
     console.log(map); // eslint-disable-line
@@ -54,8 +56,10 @@ export default (...enhancers) => (Component, options = {}) => {
     'wrapperProps',
     `
       ${breakpoint}
+  
       const ${PROPS} = Object.assign({}, wrapperProps);
-      const {${keys}, ${REACT}, ${COMPONENT}} = this;
+
+      ${assignments}
 
       ${blocks};
 
