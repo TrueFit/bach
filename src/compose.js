@@ -43,13 +43,13 @@ export default (...enhancers) => (Component, options = {}) => {
 
   const map = generateMap(enhancers);
 
-  const keys = Object.keys(map.dependencies).join(',');
+  const keys = Object.keys(map.dependencies);
   const blocks = map.blocks.join('\n');
   const breakpoint = options.debug?.breakpoint ? 'debugger;' : '';
   const assignments = generateAssignments([...keys, REACT, COMPONENT], 'this');
 
   if (options.debug?.log) {
-    console.log(map); // eslint-disable-line
+    console.log(map, assignments); // eslint-disable-line
   }
 
   const hocDef = new Function(

@@ -1,15 +1,10 @@
 import {useState} from 'react';
-import generateAssignments from '../util/generateAssignments.js';
 
 export default (stateName, stateUpdaterName, initialValue) => ({
   generateNewVariable,
 }) => {
   const initialValueAlias = generateNewVariable();
   const stateValue = `${stateName}Value`;
-  const assignments = generateAssignments(
-    [stateName, stateUpdaterName],
-    stateValue,
-  );
 
   return {
     dependencies: {
@@ -18,7 +13,8 @@ export default (stateName, stateUpdaterName, initialValue) => ({
     },
     initialize: `
       const ${stateValue} = useState(${initialValueAlias});
-      ${assignments}
+      const ${stateName} = ${stateValue}[0];
+      const ${stateUpdaterName} = ${stateValue}[1];
     `,
     props: [stateName, stateUpdaterName],
   };

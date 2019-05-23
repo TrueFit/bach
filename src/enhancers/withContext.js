@@ -3,9 +3,8 @@ import {PROPS} from '../util/constants';
 import generateAssignments from '../util/generateAssignments.js';
 
 export default (propertyNames = [], contextName) => () => {
-  const contextProps = propertyNames.join(',');
   const context = 'contextValue';
-  const assignments = generateAssignments(contextProps, context);
+  const assignments = generateAssignments(propertyNames, context);
 
   return {
     dependencies: {

@@ -1,19 +1,14 @@
 import {useReducer} from 'react';
-import generateAssignments from '../util/generateAssignments.js';
 
 export default (reducerName, reducer, initialValue, init) => ({
   generateNewVariable,
 }) => {
   const reducerDispatch = `${reducerName}Dispatch`;
+  const reducerValue = `${reducerName}Value`;
   const reducerAlias = generateNewVariable();
+
   const initialValueAlias = generateNewVariable();
   const initAlias = generateNewVariable();
-
-  const reducerValue = `${reducerName}Value`;
-  const assignments = generateAssignments(
-    [reducerName, reducerDispatch],
-    reducerValue,
-  );
 
   return {
     dependencies: {
@@ -24,7 +19,8 @@ export default (reducerName, reducer, initialValue, init) => ({
     },
     initialize: `
       const ${reducerValue} = useReducer(${reducerAlias}, ${initialValueAlias}, ${initAlias});
-      ${assignments}
+      const ${reducerName} = ${reducerValue}[0];
+      const ${reducerDispatch} = ${reducerValue}[1];
     `,
     props: [reducerName, reducerDispatch],
   };
