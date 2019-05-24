@@ -80,7 +80,7 @@ _Helper Signature_
 | fn           | js function      | the function to invoke when the callback is invoked by the component                                  |
 | conditions   | array of strings | names of the properties on the props object react should restrict the revaluation of this callback to |
 
-_Example_
+_Example 1_
 
 ```
 import React from 'react';
@@ -95,8 +95,34 @@ const Component = ({handleClick}) => (
 );
 
 export default compose(
-  withCallback('handleClick', (props) => {
+  withCallback('handleClick', (props) => () => {
     alert('Hello There');
+  }),
+)(Component);
+```
+
+_Example 2_
+
+```
+import React from 'react';
+import {compose, withState, withCallback} from '@truefit/bach';
+
+const Component = ({count, alterCount}) => (
+  <div>
+    <h1>With Callback And State</h1>
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={alterCount(1)}>Increment</button>
+      <button onClick={alterCount(-1)}>Decrement</button>
+    </div>
+  </div>
+);
+
+export default compose(
+  withState('count', 'setCount', 0),
+
+  withCallback('alterCount', ({count, setCount}) => delta => () => {
+    setCount(count + delta);
   }),
 )(Component);
 ```

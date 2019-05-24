@@ -11,9 +11,7 @@ export default (callbackName, fn, conditions) => ({generateNewVariable}) => {
       useCallback,
       [fnName]: fn,
     },
-    initialize: `const ${callbackName} = useCallback(function () {
-        ${fnName}(${PROPS});
-      }, [${conditionCode}]);`,
+    initialize: `const ${callbackName} = useCallback(${fnName}(${PROPS}), [${conditionCode}]);`,
     props: [callbackName],
   };
 };
