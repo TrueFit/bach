@@ -68,6 +68,16 @@ In general, any function you provide will invoked with the properties object con
 
 _Order matters:_ we keep the definition of the generated code in the same order you put your enhancers in the compose call, thus code only has access to the properties defined before it.
 
+#### Enhancer List
+* [withCallback](#withCallback)
+* [withContext](#withContext)
+* [withEffect](#withEffect)
+* [withLayoutEffect](#withLayoutEffect)
+* [withMemo](#withMemo)
+* [withReducer](#withReducer)
+* [withRef](#withRef)
+* [withState](#withState)
+
 #### withCallback
 
 Creates a memoized callback passed to component with the name specified.
