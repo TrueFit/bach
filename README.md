@@ -409,7 +409,7 @@ _Helper Signature_
 | ---------------- | ------ | --------------------------------------------------------------------------------------------------------- |
 | stateName        | string | the name of the state value in the props passed to the wrapped component                                  |
 | stateUpdaterName | string | the name of the function in the props passed to the wrapped component that will update state when invoked |
-| initialValue     | any    | the initial value of the state                                                                            |
+| initialValue     | any OR function    | the initial value of the state OR a function that receives `props` and returns the initial value of the state  |
 
 _Example_
 
@@ -428,6 +428,30 @@ const Component = ({count, setCount}) => (
 );
 
 export default compose(withState('count', 'setCount', 0))(Component);
+```
+
+_Example (with initialValue function)_
+
+```
+import React from 'react';
+import PropTypes from 'prop-types';
+import {compose, withState} from '@truefit/bach';
+
+const Component = ({count, setCount}) => (
+  <div>
+    <h1>With State</h1>
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  </div>
+);
+
+Component.propTypes = {
+  initialCount: PropTypes.number,
+};
+
+export default compose(withState('count', 'setCount', ({initialCount}) => initialCount))(Component);
 ```
 
 _React Hook_
