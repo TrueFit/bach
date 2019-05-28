@@ -1,5 +1,5 @@
 import {useState, useMemo} from 'react';
-import {PROPS} from '../constants';
+import {PROPS} from '../util/constants';
 
 export default (stateName, stateUpdaterName, initialValue) => ({
   generateNewVariable,
