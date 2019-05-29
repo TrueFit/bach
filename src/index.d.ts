@@ -1,41 +1,29 @@
 /**
  * Typescript definition file for Bach Compose and Enhancers
  */
-import {Component} from 'react';
 
-export = Compose;
+declare module 'bach' {
+  import {Component, ComponentClass} from 'react';
 
-// TODO: need return type?
-declare function Compose(enhancers: ComposeEnhancers[]): Component;
+  interface ComponentEnhancer<TInner, TOuter> {
+    (component: Component<TInner>): ComponentClass<TOuter>;
+  }
 
-type ComposeEnhancers = Enhancers.withEffect | Enhancers.withState;
+  export function compose<TInner, TOuter>(
+    ...enhancers: Function[]
+  ): ComponentEnhancer<TInner, TOuter>;
 
-/**
- * Enhancers
- */
-
-/***
- * Circle back on the EnhancerReturnValue. I don't think we care what enhancer returns
- * from the perspective of someone consuming these types.  If that's the case,
- * the enhancers can just return unknown.
- *
- * IF we decide we need the EnhancerReturnValue, maybe we can type the properties better.
- */
-// interface EnhancerReturnValue {
-//   dependencies: object;
-//   initialize: string;
-//   props: string[];
-// }
-
-declare namespace Enhancers {
+  /**
+   * Enhancers
+   */
   // withEffect
-  type effectReturn = () => void | void;
-  type withEffect = (fn: () => effectReturn) => unknown;
+  // type effectReturn = () => void | void;
+  // type withEffect = (fn: () => effectReturn) => unknown;
 
-  // withState
-  type withState = (
-    stateName: string,
-    stateUpdaterName: string,
-    initialState: object | Function,
-  ) => unknown;
+  // // withState
+  // type withState = (
+  //   stateName: string,
+  //   stateUpdaterName: string,
+  //   initialState: object | Function,
+  // ) => unknown;
 }

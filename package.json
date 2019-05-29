@@ -3,6 +3,7 @@
   "version": "0.1.18",
   "description": "compose your react components in style",
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "compile": "node tools/build.js",
     "prepare": "npm run compile"
