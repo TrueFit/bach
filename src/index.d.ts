@@ -1,8 +1,7 @@
 /**
  * Typescript definition file for Bach Compose and Enhancers
  */
-
-declare module 'bach' {
+declare module '@truefit/bach' {
   import {Component, ComponentClass} from 'react';
 
   interface ComponentEnhancer<TInner, TOuter> {
