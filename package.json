@@ -1,6 +1,6 @@
 {
   "name": "@truefit/bach",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "compose your react components in style",
   "main": "lib/index.js",
   "scripts": {

@@ -57,7 +57,7 @@ export default (...enhancers) => (Component, options = {}) => {
     `
       ${breakpoint}
   
-      const ${PROPS} = Object.assign({}, wrapperProps);
+      let ${PROPS} = Object.assign({}, wrapperProps);
 
       ${assignments}
 
