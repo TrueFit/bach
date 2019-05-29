@@ -1,13 +1,16 @@
 /* eslint-disable */
-require("shelljs/global");
+require('shelljs/global');
 
-echo("Building ...");
+echo('Building ...');
 
 // clean
-rm("-rf", "lib");
+rm('-rf', 'lib');
 
 // move over
-exec("babel -d lib/ src/");
-rm("-rf", "lib/tools/");
+exec('babel -d lib/ src/');
+rm('-rf', 'lib/tools/');
 
-echo("Build Complete");
+//copy TS defs
+cp('-R', 'src/index.d.ts', 'lib/index.d.ts');
+
+echo('Build Complete');
