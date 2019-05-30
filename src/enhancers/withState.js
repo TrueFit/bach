@@ -11,7 +11,7 @@ const useFunctionAsState = (stateValue, initialValueAlias) => ({
   dependencies: {useMemo},
   code: `
     const ${stateValue} = useState(
-      useMemo(() => ${initialValueAlias}(${PROPS}), [])
+      useMemo(function { return ${initialValueAlias}(${PROPS}); }, [])
     );
   `,
 });
