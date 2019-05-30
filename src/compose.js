@@ -18,6 +18,8 @@ const generateMap = enhancers => {
           ...enhancer.dependencies,
         };
 
+        result.replacesProps |= enhancer.replacesProps;
+
         const propsAssignment = enhancer.props
           .map(x => `${PROPS}.${x} = ${x};`)
           .join('\n');
@@ -27,11 +29,17 @@ const generateMap = enhancers => {
           ${propsAssignment}
         `);
 
+        if (enhancer.render) {
+          result.render = enhancer.render;
+        }
+
         return result;
       },
       {
+        replacesProps: false,
         dependencies: {},
         blocks: [],
+        render: `return ${REACT}.createElement(${COMPONENT}, ${PROPS});`,
       },
     );
 };
@@ -47,6 +55,7 @@ export default (...enhancers) => (Component, options = {}) => {
   const blocks = map.blocks.join('\n');
   const breakpoint = options.debug?.breakpoint ? 'debugger;' : '';
   const assignments = generateAssignments([...keys, REACT, COMPONENT], 'this');
+  const declare = map.replacesProps ? 'let' : 'const';
 
   if (options.debug?.log) {
     console.log(map, assignments); // eslint-disable-line
@@ -57,13 +66,13 @@ export default (...enhancers) => (Component, options = {}) => {
     `
       ${breakpoint}
   
-      let ${PROPS} = Object.assign({}, wrapperProps);
+      ${declare} ${PROPS} = Object.assign({}, wrapperProps);
 
       ${assignments}
 
       ${blocks};
 
-      return ${REACT}.createElement(${COMPONENT}, ${PROPS});
+      ${map.render}
     `,
   );
 
