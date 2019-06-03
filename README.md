@@ -52,7 +52,7 @@ const Component = ({handleClick}) => (
 );
 
 export default compose(
-  withCallback('handleClick', () => {
+  withCallback('handleClick', () => () => {
     alert('Hello There');
   }),
 )(Component);
