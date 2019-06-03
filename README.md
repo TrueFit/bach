@@ -6,6 +6,8 @@ Bach is a utility library the allows React developer to compose their components
 
 The goal is to help create a codebase that is readable, flexible, testable, and maintainable. In our experience, following this convention generally leads to a collection of single use, small functions that can easily be shared across a codebase. The ideal is that components should be focused on rendering, allowing other concerns to be coded elsewhere and passed in.
 
+You can find a full React project with simple working examples of each hook, as well as more complex examples that combine hooks here: [https://github.com/TrueFit/bach-examples](https://github.com/TrueFit/bach-examples).
+
 ## Conception
 
 At a high level, we liked the syntax that [Recompose](https://github.com/acdlite/recompose) enabled in our source. The advent of React hooks has forced us to move away from recompose since it has a couple of major drawbacks in this new world (no hooks, HOC hell, and the author deprecated it). We searched for a comparable library in the community, but were unable to find one that fit our needs.
@@ -60,23 +62,24 @@ export default compose(
 
 #### Overview
 
-As discussed below, this library was built with React Hooks in mind, thus the base library (this one) is restricted to having React as it's sole dependency. We wrapped all of the standard React hooks, except for useImperativeHandle (we still haven't seen a good use for it) and useDebugValue (it's targeted at custom hooks which are outside of the scope of this library).
+Enhancers are the central mechanism for composing components with @truefit/bach. In general, you will declare a series of enhancers for each component that together compose all of the supporting logic that component needs to render. For example, you commonly have a couple of state enhancers combined with callbacks and effects.
 
-You can find a full React project with simple working examples of each hook, as well as more complex examples that combine hooks here: [https://github.com/TrueFit/bach-examples](https://github.com/TrueFit/bach-examples).
-
-In general, any function you provide will invoked with the properties object contained in the HOC, which is combination of any properties passed to the HOC along with those defined by your helper definitions.
+Underneath the covers, @truefit/bach does things a little differently than its predecessors. Rather than have a a huge tree of HOCs wrapping your component, the compose function combines all of your enhancers into a single HOC generated at runtime. This allows your code to follow all of the hook rules while still being composed functionally.
 
 _Order matters:_ we keep the definition of the generated code in the same order you put your enhancers in the compose call, thus code only has access to the properties defined before it.
 
+As discussed below, this library was built with React Hooks in mind, thus the base library (this one) is restricted to having React as it's sole dependency. We wrapped all of the standard React hooks, except for useImperativeHandle (we still haven't seen a good use for it) and useDebugValue (it's targeted at custom hooks which are outside of the scope of this library).
+
 #### Enhancer List
-* [withCallback](#withCallback)
-* [withContext](#withContext)
-* [withEffect](#withEffect)
-* [withLayoutEffect](#withLayoutEffect)
-* [withMemo](#withMemo)
-* [withReducer](#withReducer)
-* [withRef](#withRef)
-* [withState](#withState)
+
+- [withCallback](#withCallback)
+- [withContext](#withContext)
+- [withEffect](#withEffect)
+- [withLayoutEffect](#withLayoutEffect)
+- [withMemo](#withMemo)
+- [withReducer](#withReducer)
+- [withRef](#withRef)
+- [withState](#withState)
 
 #### withCallback
 
@@ -405,11 +408,11 @@ Creates a stateful value, and a function to update it.
 
 _Helper Signature_
 
-| Parameter        | Type   | Description                                                                                               |
-| ---------------- | ------ | --------------------------------------------------------------------------------------------------------- |
-| stateName        | string | the name of the state value in the props passed to the wrapped component                                  |
-| stateUpdaterName | string | the name of the function in the props passed to the wrapped component that will update state when invoked |
-| initialValue     | any OR function    | the initial value of the state OR a function that receives `props` and returns the initial value of the state  |
+| Parameter        | Type            | Description                                                                                                   |
+| ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------- |
+| stateName        | string          | the name of the state value in the props passed to the wrapped component                                      |
+| stateUpdaterName | string          | the name of the function in the props passed to the wrapped component that will update state when invoked     |
+| initialValue     | any OR function | the initial value of the state OR a function that receives `props` and returns the initial value of the state |
 
 _Example_
 
