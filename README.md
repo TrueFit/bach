@@ -389,10 +389,10 @@ export default compose(
   withRef('textBox1', null),
   withRef('textBox2', null),
 
-  withCallback('focus1', ({textBox1}) => {
+  withCallback('focus1', ({textBox1}) => () => {
     textBox1.current.focus();
   }),
-  withCallback('focus2', ({textBox2}) => {
+  withCallback('focus2', ({textBox2}) => () => {
     textBox2.current.focus();
   }),
 )(Component);
