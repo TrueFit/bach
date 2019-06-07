@@ -13,27 +13,22 @@ declare module '@truefit/bach' {
 
   // compose returns a function that receives a component(inner) and options and returns a
   // new new wrapped SFC(outer) with all enhancer props passed
-  interface ComposeHOC<TInner, TOuter> {
-    (component: Component<TInner>, options?: {}): StatelessFunctionComponent<
-      TOuter
-    >;
+  interface ComposeHOC<TInjectedProps, TNeedsProps = {}> {
+    <P extends TInjectedProps>(
+      component: Component<P>,
+      options?: {},
+    ): StatelessFunctionComponent<Omit<P, keyof TInjectedProps> & TNeedsProps>;
   }
 
-  // Injects props and removes them from the prop requirements.
-  // Optionally, adds new prop requirements from TNeedsProps.
-  // export interface ComponentEnhancerWithProps<
-  //   TInjectedProps,
-  //   TNeedsProps = {}
-  // > {
-  //   <P extends TInjectedProps>(
-  //     component: Component<P>,
-  //   ): React.FunctionComponent<Omit<P, keyof TInjectedProps> & TNeedsProps>;
-  // }
-
   // Compose pipe
-  export function compose<TInner, TOuter>(
-    ...enhancers: Function[]
-  ): ComposeHOC<TInner, TOuter>;
+  export function compose<TInjectedProps, TNeedsProps>(
+    ...enhancers: EnhancerHOC<TInjectedProps>[]
+  ): ComposeHOC<TInjectedProps, TNeedsProps>;
+
+  // code gen context that gets passed to each enhancer result
+  type CodeGenerationContext<T> = {
+    generateNewVariable: () => T;
+  };
 
   // enhancers return value
   type EnhancerReturn<TProps> = {
@@ -43,7 +38,7 @@ declare module '@truefit/bach' {
   };
 
   interface EnhancerHOC<TProps> {
-    (context: object): EnhancerReturn<TProps>;
+    <TProps>(context: CodeGenerationContext<TProps>): EnhancerReturn<TProps>;
   }
 
   // withState
