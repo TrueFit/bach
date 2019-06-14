@@ -56,7 +56,7 @@ export default (...enhancers) => (Component, options = {}) => {
   const breakpoint = options.debug?.breakpoint ? 'debugger;' : '';
   const assignments = generateAssignments([...keys, REACT, COMPONENT], 'this');
   const declare = map.replacesProps ? 'let' : 'const';
-  const renders = map.render.join('\n');
+  const renders = map.renders.join('\n');
 
   if (options.debug?.log) {
     console.log(map, assignments); // eslint-disable-line
