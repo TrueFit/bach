@@ -30,7 +30,7 @@ const generateMap = enhancers => {
         `);
 
         if (enhancer.render) {
-          result.render = enhancer.render;
+          result.renders.push(enhancer.render);
         }
 
         return result;
@@ -39,7 +39,7 @@ const generateMap = enhancers => {
         replacesProps: false,
         dependencies: {},
         blocks: [],
-        render: `return ${REACT}.createElement(${COMPONENT}, ${PROPS});`,
+        renders: [],
       },
     );
 };
@@ -56,6 +56,7 @@ export default (...enhancers) => (Component, options = {}) => {
   const breakpoint = options.debug?.breakpoint ? 'debugger;' : '';
   const assignments = generateAssignments([...keys, REACT, COMPONENT], 'this');
   const declare = map.replacesProps ? 'let' : 'const';
+  const renders = map.render.join('\n');
 
   if (options.debug?.log) {
     console.log(map, assignments); // eslint-disable-line
@@ -72,7 +73,9 @@ export default (...enhancers) => (Component, options = {}) => {
 
       ${blocks};
 
-      ${map.render}
+      ${renders}
+
+      return ${REACT}.createElement(${COMPONENT}, ${PROPS});
     `,
   );
 
