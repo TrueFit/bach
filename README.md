@@ -2,7 +2,7 @@
 
 ## Overview
 
-Bach is a utility library the allows React developer to compose their components in functional manner.
+Bach is a utility library the allows React developer to compose their components in a functional manner.
 
 The goal is to help create a codebase that is readable, flexible, testable, and maintainable. In our experience, following this convention generally leads to a collection of single use, small functions that can easily be shared across a codebase. The ideal is that components should be focused on rendering, allowing other concerns to be coded elsewhere and passed in.
 
