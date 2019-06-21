@@ -1,5 +1,6 @@
 export {default as withState} from './withState';
 export {default as withEffect} from './withEffect';
+export {default as withHook} from './withHook';
 export {default as withLayoutEffect} from './withLayoutEffect';
 export {default as withContext} from './withContext';
 export {default as withReducer} from './withReducer';
