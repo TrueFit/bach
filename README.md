@@ -495,9 +495,12 @@ export default compose(
   withHook(useState, 0, ['count', 'setCount']),
   withHook(useMemo, ({count}) => () => count + 1, 'oneMore'),
 
-  withHook(useEffect, [({count}) => () => {
-    console.log(`Count ${count}`);
-  }, ['count]]),
+  withHook(useEffect, [
+    ({count}) => () => {
+      console.log(`Count ${count}`);
+    },
+    count => [count],
+  ]),
 )(Component);
 ```
 

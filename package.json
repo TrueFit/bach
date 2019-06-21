@@ -1,6 +1,6 @@
 {
   "name": "@truefit/bach",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "compose your react components in style",
   "main": "lib/index.js",
   "scripts": {
@@ -13,7 +13,8 @@
   },
   "authors": [
     "jgretz",
-    "jjgillespie"
+    "jjgillespie",
+    "stephen776"
   ],
   "license": "MIT",
   "bugs": {
