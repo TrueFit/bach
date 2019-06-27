@@ -504,6 +504,37 @@ export default compose(
 )(Component);
 ```
 
+#### withStaticProps
+
+Allows you to attach static props to the resultant HOC component. Bach will also copy any static properties defined on the component passed to compose up to the generated HOC.
+
+_Helper Signature_
+
+| Parameter | Type      | Description                                                     |
+| --------- | --------- | --------------------------------------------------------------- |
+| props     | js object | an object containing the key-value pairs to use as static props |
+
+_Example_
+
+```
+import React from 'react';
+import {compose, withStaticProps} from '@truefit/bach';
+
+const Component = () => (
+  <div>
+    <h1>With Static Props</h1>
+  </div>
+);
+
+export default compose(
+  withStaticProps({
+    navigationOptions: {
+      headerTitle: 'Bach',
+    },
+  }),
+)(Component);
+```
+
 ### Other enhancer libraries
 
 One of the guidelines mentioned above was to make it easy for others to add enhancers for their own projects. Below are a couple of "additional" libraries that we have developed for other libraries that we commonly use, but didn't want to be a part of the base dependencies.

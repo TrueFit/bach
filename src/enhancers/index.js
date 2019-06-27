@@ -7,3 +7,4 @@ export {default as withReducer} from './withReducer';
 export {default as withCallback} from './withCallback';
 export {default as withMemo} from './withMemo';
 export {default as withRef} from './withRef';
+export {default as withStaticProps} from './withStaticProps';

@@ -1,5 +1,5 @@
 import React from 'react';
-import {REACT, PROPS, COMPONENT} from './util/constants';
+import {REACT, PROPS, STATIC_PROPS, COMPONENT} from './util/constants';
 import generateNewVariable from './util/generateNewVariable.js';
 import generateAssignments from './util/generateAssignments.js';
 
@@ -33,6 +33,13 @@ const generateMap = enhancers => {
           result.renders.push(enhancer.render);
         }
 
+        if (enhancer.staticProps) {
+          result.staticProps = {
+            ...result.staticProps,
+            ...enhancer.staticProps,
+          }
+        }
+
         return result;
       },
       {
@@ -40,6 +47,7 @@ const generateMap = enhancers => {
         dependencies: {},
         blocks: [],
         renders: [],
+        staticProps: {},
       },
     );
 };
@@ -58,6 +66,16 @@ export default (...enhancers) => (Component, options = {}) => {
   const declare = map.replacesProps ? 'let' : 'const';
   const renders = map.renders.join('\n');
 
+  const definedStaticProps = Object.keys(Component).reduce((acc, key) => {
+    acc[key] = Component[key];
+    return acc;
+  }, {});
+
+  const staticProps = {
+    ...definedStaticProps,
+    ...map.staticProps
+  };
+
   if (options.debug?.log) {
     console.log(map, assignments); // eslint-disable-line
   }
@@ -66,10 +84,10 @@ export default (...enhancers) => (Component, options = {}) => {
     'wrapperProps',
     `
       ${breakpoint}
-  
-      ${declare} ${PROPS} = Object.assign({}, wrapperProps);
 
       ${assignments}
+  
+      ${declare} ${PROPS} = Object.assign({}, wrapperProps);
 
       ${blocks};
 
@@ -79,10 +97,16 @@ export default (...enhancers) => (Component, options = {}) => {
     `,
   );
 
+  // bind dependencies
   const hoc = hocDef.bind({
     [REACT]: React,
     [COMPONENT]: Component,
     ...map.dependencies,
+  });
+
+  // copy over / assign static props
+  Object.keys(staticProps).forEach(key => {
+    hoc[key] = staticProps[key];
   });
 
   if (options.debug?.log) {
