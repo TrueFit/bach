@@ -1,5 +1,5 @@
 import React from 'react';
-import {REACT, PROPS, STATIC_PROPS, COMPONENT} from './util/constants';
+import {REACT, PROPS, COMPONENT} from './util/constants';
 import generateNewVariable from './util/generateNewVariable.js';
 import generateAssignments from './util/generateAssignments.js';
 
