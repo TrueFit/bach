@@ -34,10 +34,7 @@ const generateMap = enhancers => {
         }
 
         if (enhancer.staticProps) {
-          result.staticProps = {
-            ...result.staticProps,
-            ...enhancer.staticProps,
-          }
+          result.staticProps = {...result.staticProps, ...enhancer.staticProps};
         }
 
         return result;
@@ -50,6 +47,18 @@ const generateMap = enhancers => {
         staticProps: {},
       },
     );
+};
+
+const compileStaticProps = (Component, map) => {
+  const hoistedStaticProps = Object.keys(Component).reduce((acc, key) => {
+    acc[key] = Component[key];
+    return acc;
+  }, {});
+
+  return {
+    ...hoistedStaticProps,
+    ...map.staticProps,
+  };
 };
 
 export default (...enhancers) => (Component, options = {}) => {
@@ -65,16 +74,6 @@ export default (...enhancers) => (Component, options = {}) => {
   const assignments = generateAssignments([...keys, REACT, COMPONENT], 'this');
   const declare = map.replacesProps ? 'let' : 'const';
   const renders = map.renders.join('\n');
-
-  const definedStaticProps = Object.keys(Component).reduce((acc, key) => {
-    acc[key] = Component[key];
-    return acc;
-  }, {});
-
-  const staticProps = {
-    ...definedStaticProps,
-    ...map.staticProps
-  };
 
   if (options.debug?.log) {
     console.log(map, assignments); // eslint-disable-line
@@ -105,6 +104,8 @@ export default (...enhancers) => (Component, options = {}) => {
   });
 
   // copy over / assign static props
+  const staticProps = compileStaticProps(Component, map);
+
   Object.keys(staticProps).forEach(key => {
     hoc[key] = staticProps[key];
   });

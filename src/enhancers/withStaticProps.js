@@ -2,20 +2,20 @@ import {PROPS} from '../util/constants';
 import isFunction from '../util/isFunction';
 
 const lazyStaticProps = (props, generateNewVariable) => {
-  const helperAlias = generateNewVariable();
-  const helper = {};
+  const propsAlias = generateNewVariable();
+  const propsRedirect = {};
 
   return {
     dependencies: {
-      [helperAlias]: helper,
+      [propsAlias]: propsRedirect,
     },
     initialize: `
-      ${helperAlias}.getProps = function() {
-        return ${PROPS};
-      };
+      Object.keys(${PROPS}).forEach(function(key) {
+        ${propsAlias}[key] = ${PROPS}[key];
+      });
     `,
     props: [],
-    staticProps: props(helper),
+    staticProps: props(propsRedirect),
   };
 };
 
