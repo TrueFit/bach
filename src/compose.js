@@ -49,16 +49,20 @@ const generateMap = enhancers => {
     );
 };
 
-const compileStaticProps = (Component, map) => {
+const compileStaticProps = (hoc, Component, map) => {
   const hoistedStaticProps = Object.keys(Component).reduce((acc, key) => {
     acc[key] = Component[key];
     return acc;
   }, {});
 
-  return {
+  const staticProps = {
     ...hoistedStaticProps,
     ...map.staticProps,
   };
+
+  Object.keys(staticProps).forEach(key => {
+    hoc[key] = staticProps[key];
+  });
 };
 
 export default (...enhancers) => (Component, options = {}) => {
@@ -104,11 +108,7 @@ export default (...enhancers) => (Component, options = {}) => {
   });
 
   // copy over / assign static props
-  const staticProps = compileStaticProps(Component, map);
-
-  Object.keys(staticProps).forEach(key => {
-    hoc[key] = staticProps[key];
-  });
+  compileStaticProps(hoc, Component, map);
 
   if (options.debug?.log) {
     console.log(hoc); // eslint-disable-line
