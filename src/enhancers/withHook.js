@@ -1,5 +1,4 @@
 import isFunction from '../util/isFunction';
-import isArray from '../util/isArray';
 import {PROPS} from '../util/constants';
 
 const invoke = (hookAlias, params) => {
@@ -18,7 +17,7 @@ const invoke = (hookAlias, params) => {
 };
 
 const result = (props, generateNewVariable) => {
-  if (!isArray(props)) {
+  if (!Array.isArray(props)) {
     return [`const ${props} = `, ''];
   }
 
@@ -38,7 +37,7 @@ export default (hook, parameterValues = [], props = []) => ({
 }) => {
   const hookAlias = generateNewVariable();
 
-  const normalizedParameterValues = isArray(parameterValues)
+  const normalizedParameterValues = Array.isArray(parameterValues)
     ? parameterValues
     : [parameterValues];
 
@@ -59,6 +58,6 @@ export default (hook, parameterValues = [], props = []) => ({
       ${resultCode[0]}${invoke(hookAlias, params)};
       ${resultCode[1]}
     `,
-    props: isArray(props) ? props : props ? [props] : [],
+    props: Array.isArray(props) ? props : props ? [props] : [],
   };
 };
