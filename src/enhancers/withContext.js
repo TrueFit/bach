@@ -6,22 +6,22 @@ export default (propertyNames = [], contextSource) => ({
   generateNewVariable,
 }) => {
   const context = generateNewVariable();
-
   const contextSourceAlias = generateNewVariable();
-  const contextSourceValue =
-    typeof contextSource === 'object'
-      ? contextSource
-      : `${PROPS}.${contextSource}`;
+
+  const sourceIsObject = typeof contextSource === 'object';
+  const hookTarget = sourceIsObject
+    ? contextSourceAlias
+    : `${PROPS}.${contextSource}`;
 
   const assignments = generateAssignments(propertyNames, context);
 
   return {
     dependencies: {
       useContext,
-      [contextSourceAlias]: contextSourceValue,
+      [contextSourceAlias]: contextSource,
     },
     initialize: `
-      const ${context} = useContext(${contextSourceAlias});
+      const ${context} = useContext(${hookTarget});
 
       ${assignments}
     `,
