@@ -5,20 +5,23 @@ import generateAssignments from '../util/generateAssignments.js';
 export default (propertyNames = [], contextSource) => ({
   generateNewVariable,
 }) => {
-  const source = generateNewVariable();
   const context = generateNewVariable();
+
   const contextSourceAlias = generateNewVariable();
+  const contextSourceValue =
+    typeof contextSource === 'object'
+      ? contextSource
+      : `${PROPS}.${contextSource}`;
 
   const assignments = generateAssignments(propertyNames, context);
 
   return {
     dependencies: {
       useContext,
-      contextSourceAlias: contextSource,
+      contextSourceAlias: contextSourceValue,
     },
     initialize: `
-      const ${source} = typeof ${contextSourceAlias} === 'object' ? ${contextSourceAlias} : ${PROPS}.${contextSourceAlias};
-      const ${context} = useContext(${source});
+      const ${context} = useContext(${contextSourceAlias});
 
       ${assignments}
     `,
