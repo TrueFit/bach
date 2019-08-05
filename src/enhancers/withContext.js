@@ -17,7 +17,7 @@ export default (propertyNames = [], contextSource) => ({
       contextSourceAlias: contextSource,
     },
     initialize: `
-      const ${source} = typeof ${contextSourceAlias} === 'object' ? ${contextSourceAlias} : ${PROPS}.${contextSource};
+      const ${source} = typeof ${contextSourceAlias} === 'object' ? ${contextSourceAlias} : ${PROPS}.${contextSourceAlias};
       const ${context} = useContext(${source});
 
       ${assignments}
