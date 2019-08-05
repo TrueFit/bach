@@ -18,7 +18,7 @@ export default (propertyNames = [], contextSource) => ({
   return {
     dependencies: {
       useContext,
-      contextSourceAlias: contextSourceValue,
+      [contextSourceAlias]: contextSourceValue,
     },
     initialize: `
       const ${context} = useContext(${contextSourceAlias});
