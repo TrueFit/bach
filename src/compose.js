@@ -37,6 +37,10 @@ const generateMap = enhancers => {
           result.staticProps = {...result.staticProps, ...enhancer.staticProps};
         }
 
+        if (enhancer.post) {
+          result.posts.push(enhancer.post);
+        }
+
         return result;
       },
       {
@@ -45,6 +49,7 @@ const generateMap = enhancers => {
         blocks: [],
         renders: [],
         staticProps: {},
+        posts: [],
       },
     );
 };
@@ -114,5 +119,9 @@ export default (...enhancers) => (Component, options = {}) => {
     console.log(hoc); // eslint-disable-line
   }
 
-  return hoc;
+  // run post logic
+  const finalHoc = map.posts.reduce((acc, fn) => fn(acc), hoc);
+
+  // return
+  return finalHoc;
 };

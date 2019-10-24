@@ -567,11 +567,14 @@ The function will be invoked with a js object. This object contains the followin
 
 #### Return Object
 
-| Property     | Type      | Description                                                                                                                                                                        |
-| ------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| dependencies | js object | a map of the dependencies for your enhancer. These will be available to your initialize code by the keys specified. The compose method reduces all keys to a single unique key set |
-| initialize   | string    | the code that will be added in line in order to the generated HOC                                                                                                                  |
-| props        | any       | the properties that the code creates that need to be added to the overall property object that will be passed to the wrapped component                                             |
+| Property     | Type                | Description                                                                                                                                                                        |
+| ------------ | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dependencies | js object           | a map of the dependencies for your enhancer. These will be available to your initialize code by the keys specified. The compose method reduces all keys to a single unique key set |
+| initialize   | string              | the code that will be added in line in order to the generated HOC                                                                                                                  |
+| props        | any                 | the properties that the code creates that need to be added to the overall property object that will be passed to the wrapped component                                             |
+| render       | string (optional)   | overrides the render statement (we leave the default render at the bottom in case this doesnt return)                                                                              |
+| post         | function (optional) | a function that is passed the resultant HOC, the function is expected to return an HOC to use                                                                                      |
+
 
 #### Initialize
 
