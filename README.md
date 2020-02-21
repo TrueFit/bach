@@ -499,7 +499,7 @@ export default compose(
     ({count}) => () => {
       console.log(`Count ${count}`);
     },
-    count => [count],
+    ({count}) => [count],
   ]),
 )(Component);
 ```
