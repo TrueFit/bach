@@ -39,4 +39,7 @@ jspm_packages
 
 # Output
 lib/
+build/
 
+#JetBrains project files
+.idea/
