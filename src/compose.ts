@@ -11,6 +11,7 @@ export default <T>(...enhancers: Enhancer[]): ((component: ReactNode) => Functio
   component: FunctionComponent,
 ): FunctionComponent<T> => {
   const context: EnhancerContext = {
+    component,
     generateNewVariable: generateNewVariable(),
   };
 

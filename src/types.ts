@@ -1,15 +1,17 @@
-import {FunctionComponent} from 'react';
+import {FunctionComponent, ReactNode} from 'react';
 
+export type DependencyList<T> = Array<keyof T> | undefined;
 export type ComponentTransform = (component: FunctionComponent) => FunctionComponent;
 
 export type EnhancerResult = {
-  dependencies: object;
+  dependencies: {[key: string]: unknown};
   initialize: string;
   props: string[];
   transformComponent?: ComponentTransform;
 };
 
 export type EnhancerContext = {
+  component: ReactNode;
   generateNewVariable: () => string;
 };
 
