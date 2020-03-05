@@ -29,9 +29,7 @@ Thus we decided to write this library to fill the hole in the community the depr
 
 We are pretty happy with where we ended up and hope it will prove helpful not just to us, but also the React community at large. We welcome questions, thoughts, and contributions from the community (see Contributing below). If you use it and find it helpful, we'd love to hear about that as well.
 
-## Using @truefit/bach
-
-### Installation
+## Installation
 
 ```
 npm install @truefit/bach
@@ -43,7 +41,7 @@ or
 yarn add @truefit/bach
 ```
 
-### Basic Composition
+## Basic Composition
 
 #### Typescript
 
@@ -91,9 +89,9 @@ export default compose(
 )(Component);
 ```
 
-### Enhancers
+## Enhancers
 
-#### Overview
+### Overview
 
 Enhancers are the central mechanism for composing components with @truefit/bach. In general, you will declare a series of enhancers for each component that together compose all of the supporting logic that component needs to render. For example, you commonly have a couple of state enhancers combined with callbacks and effects.
 
@@ -103,7 +101,7 @@ _Order matters:_ we keep the definition of the generated code in the same order 
 
 As discussed below, this library was built with React Hooks in mind, thus the base library (this one) is restricted to having React as it's sole dependency. We wrapped all of the standard React hooks, except for useImperativeHandle (we still haven't seen a good use for it) and useDebugValue (it's targeted at custom hooks which are outside of the scope of this library).
 
-#### Enhancer List
+### Enhancer List
 
 - [withCallback](#withCallback)
 - [withContext](#withContext)
@@ -115,7 +113,7 @@ As discussed below, this library was built with React Hooks in mind, thus the ba
 - [withState](#withState)
 - [withHook](#withHook)
 
-#### withCallback
+### withCallback
 
 Creates a memoized callback passed to component with the name specified.
 
@@ -128,6 +126,8 @@ _Helper Signature_
 | conditions   | Array<keyof T>        | names of the properties on the props object react should restrict the revaluation of this callback to |
 
 _Example 1_
+
+#### Typescript
 
 ```Typescript
 import React from 'react';
@@ -152,6 +152,8 @@ export default compose<Props>(
 )(Component);
 ```
 
+#### Javascript
+
 ```Javascript
 import React from 'react';
 import {compose, withCallback} from '@truefit/bach';
@@ -172,6 +174,8 @@ export default compose(
 ```
 
 _Example 2_
+
+#### Typescript
 
 ```Typescript
 import React from 'react';
@@ -204,6 +208,8 @@ export default compose(
 )(Component);
 ```
 
+#### Javascript
+
 ```Javascript
 import React from 'react';
 import {compose, withState, withCallback} from '@truefit/bach';
@@ -232,22 +238,58 @@ _React Hook_
 
 [useCallback](https://reactjs.org/docs/hooks-reference.html#usecallback)
 
-#### withContext
+### withContext
 
 Accepts a context object and returns the current context value for that context.
 
 _Helper Signature_
 
-| Parameter       | Type                | Description                                                                                              |
-| --------------- | ------------------- | -------------------------------------------------------------------------------------------------------- |
-| contextProperty | array of strings    | the names of the props in the context that are mapped to the props passed to the wrapped component       |
-| contextSource   | js object or string | either the context object or the name of the prop in the HOC that points to the context to use as source |
+| Parameter       | Type                 | Description                                                                                              |
+| --------------- | -------------------- | -------------------------------------------------------------------------------------------------------- |
+| contextProperty | Array<keyof T>       | the names of the props in the context that are mapped to the props passed to the wrapped component       |
+| contextSource   | Context<T> or string | either the context object or the name of the prop in the HOC that points to the context to use as source |
 
 _Example_
 
-```
+#### Typescript
+
+```Typescript
 import React from 'react';
 import {compose, withContext} from '@truefit/bach';
+
+type Props = {
+  message: string;
+};
+
+type Context = {
+  message: string;
+};
+
+const context = React.createContext<Context>({message: 'Hello There'});
+
+const Component = ({message}: Props) => {
+  return (
+    <div>
+      <h1>With Context</h1>
+      <div>
+        <h2>{message}</h2>
+      </div>
+    </div>
+  );
+};
+
+export default compose(
+  withContext<Context>(['message'], context)
+)(Component);
+```
+
+#### Javascript
+
+```Javascript
+import React from 'react';
+import {compose, withContext} from '@truefit/bach';
+
+const context = React.createContext({message: 'Hello Child'});
 
 const Component = ({message}) => {
   return (
@@ -260,35 +302,50 @@ const Component = ({message}) => {
   );
 };
 
-const Child = compose(withContext(['message'], 'context'))(Component);
-
-const Parent = () => {
-  const context = React.createContext({message: 'Hello Child'});
-
-  return <Child context={context} />;
-};
-
-export default Parent;
+export default compose(
+  withContext(['message'], context)
+)(Component);
 ```
 
 _React Hook_
 
 [useContext](https://reactjs.org/docs/hooks-reference.html#usecontext)
 
-#### withEffect
+### withEffect
 
 Accepts a function that contains imperative, possibly effect creating code.
 
 _Helper Signature_
 
-| Parameter  | Type             | Description                                                                                     |
-| ---------- | ---------------- | ----------------------------------------------------------------------------------------------- |
-| fn         | js function      | the function to invoke when the values of properties change on the wrapped component            |
-| conditions | array of strings | names of the properties on the props object react should restrict the firing of the function to |
+| Parameter  | Type               | Description                                                                                     |
+| ---------- | ------------------ | ----------------------------------------------------------------------------------------------- |
+| fn         | (t?: T) => unknown | the function to invoke when the values of properties change on the wrapped component            |
+| conditions | Array<keyof T>     | names of the properties on the props object react should restrict the firing of the function to |
 
 _Example_
 
+#### Typescript
+
+```Javascript
+import React from 'react';
+import {compose, withEffect} from '@truefit/bach';
+
+const Component = () => (
+  <div>
+    <h1>With Effect</h1>
+  </div>
+);
+
+export default compose(
+  withEffect(() => {
+    console.log('Effect Fired');
+  }),
+)(Component);
 ```
+
+#### Javascript
+
+```Javascript
 import React from 'react';
 import {compose, withEffect} from '@truefit/bach';
 
@@ -309,20 +366,41 @@ _React Hook_
 
 [useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect)
 
-#### withLayoutEffect
+### withLayoutEffect
 
 Like withEffect, but used for the times when invocation cannot be deferred, thus it fires synchronously after all DOM mutations.
 
 _Helper Signature_
 
-| Parameter  | Type             | Description                                                                                     |
-| ---------- | ---------------- | ----------------------------------------------------------------------------------------------- |
-| fn         | js function      | the function to invoke when the values of properties change on the wrapped component            |
-| conditions | array of strings | names of the properties on the props object react should restrict the firing of the function to |
+| Parameter  | Type               | Description                                                                                     |
+| ---------- | ------------------ | ----------------------------------------------------------------------------------------------- |
+| fn         | (t?: T) => unknown | the function to invoke when the values of properties change on the wrapped component            |
+| conditions | Array<keyof T>     | names of the properties on the props object react should restrict the firing of the function to |
 
 _Example_
 
+#### Typescript
+
+```Typescript
+import React from 'react';
+import {compose, withLayoutEffect} from '@truefit/bach';
+
+const Component = () => (
+  <div>
+    <h1>With Effect</h1>
+  </div>
+);
+
+export default compose(
+  withLayoutEffect(() => {
+    console.log('Effect Fired');
+  }),
+)(Component);
 ```
+
+#### Javascript
+
+```Javascript
 import React from 'react';
 import {compose, withLayoutEffect} from '@truefit/bach';
 
@@ -343,21 +421,49 @@ _React Hook_
 
 [useLayoutEffect](https://reactjs.org/docs/hooks-reference.html#uselayouteffect)
 
-#### withMemo
+### withMemo
 
 Creates a memoized value.
 
 _Helper Signature_
 
-| Parameter  | Type             | Description                                                                                     |
-| ---------- | ---------------- | ----------------------------------------------------------------------------------------------- |
-| memoName   | string           | the name of the memoized value in the props passed to the wrapped component                     |
-| fn         | js function      | the function to invoke to produce the memoized value                                            |
-| conditions | array of strings | names of the properties on the props object react should restrict the firing of the function to |
+| Parameter  | Type               | Description                                                                                     |
+| ---------- | ------------------ | ----------------------------------------------------------------------------------------------- |
+| memoName   | keyof T            | the name of the memoized value in the props passed to the wrapped component                     |
+| fn         | (t?: T) => unknown | the function to invoke to produce the memoized value                                            |
+| conditions | Array<keyof T>     | names of the properties on the props object react should restrict the firing of the function to |
 
 _Example_
 
+#### Typescript
+
+```Typescript
+import React from 'react';
+import {compose, withMemo} from '@truefit/bach';
+
+type Props = {
+  message: string;
+};
+
+const Component = ({message}: Props) => (
+  <div>
+    <h1>With Memo</h1>
+    <div>
+      <h2>Message: {message}</h2>
+    </div>
+  </div>
+);
+
+export default compose(
+  withMemo<Props>('message', () => {
+    return 'Hello World';
+  }),
+)(Component);
 ```
+
+#### Javascript
+
+```Javascript
 import React from 'react';
 import {compose, withMemo} from '@truefit/bach';
 
@@ -381,7 +487,7 @@ _React Hook_
 
 [useMemo](https://reactjs.org/docs/hooks-reference.html#usememo)
 
-#### withReducer
+### withReducer
 
 An alternative to useState. Accepts a reducer of type (state, action) => newState, and returns the current state paired with a dispatch method.
 
@@ -389,16 +495,69 @@ An alternative to useState. Accepts a reducer of type (state, action) => newStat
 
 _Helper Signature_
 
-| Parameter    | Type        | Description                                                                                                                                |
-| ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| reducerName  | string      | the name of the reducer value in the props passed to the wrapped component                                                                 |
-| reducer      | js function | the reducer function that conforms to the signature (state, action) => newState                                                            |
-| initialValue | any         | the initial value of the reducer                                                                                                           |
-| init         | js function | a function that returns the initial value of the reducer the 1st time the reducer is invoked. Used for lazy initialization of the reducer. |
+| Parameter    | Type                    | Description                                                                                                                                |
+| ------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| reducerName  | keyof T                 | the name of the reducer value in the props passed to the wrapped component                                                                 |
+| reducer      | Reducer<S, A>           | the reducer function that conforms to the signature (state, action) => newState                                                            |
+| initialValue | S                       | the initial value of the reducer                                                                                                           |
+| init         | (s?: S) => S (optional) | a function that returns the initial value of the reducer the 1st time the reducer is invoked. Used for lazy initialization of the reducer. |
 
 _Example_
 
+#### Typescript
+
+```Typescript
+import React, {Dispatch} from 'react';
+import {compose, withReducer} from '@truefit/bach';
+
+enum ActionType {
+  INCREMENT = 'INCREMENT',
+  DECREMENT = 'DECREMENT',
+}
+
+type Action = {type: ActionType};
+
+type Props = {
+  count: number;
+  countDispatch: Dispatch<Action>;
+};
+
+const Component = ({count, countDispatch}: Props) => (
+  <div>
+    <h1>With Reducer</h1>
+    <div>
+      <h2>Count: {count}</h2>
+      <button type="button" onClick={() => countDispatch({type: ActionType.INCREMENT})}>
+        Increment
+      </button>
+      <button type="button" onClick={() => countDispatch({type: ActionType.DECREMENT})}>
+        Decrement
+      </button>
+    </div>
+  </div>
+);
+
+const reducer = (state: number, action: Action) => {
+  switch (action.type) {
+    case ActionType.INCREMENT:
+      return state + 1;
+
+    case ActionType.DECREMENT:
+      return state - 1;
+
+    default:
+      return state;
+  }
+};
+
+export default compose(
+  withReducer<Props, number, Action>('count', reducer, 0)
+)(Component);
 ```
+
+#### Javascript
+
+```Javascript
 import React from 'react';
 import {compose, withReducer} from '@truefit/bach';
 
@@ -442,20 +601,67 @@ _React Hook_
 
 [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer)
 
-#### withRef
+### withRef
 
 Creates a mutable ref object whose .current property is initialized to the passed argument (initialValue). The returned object will persist for the full lifetime of the component.
 
 _Helper Signature_
 
-| Parameter    | Type   | Description                                                              |
-| ------------ | ------ | ------------------------------------------------------------------------ |
-| refName      | string | the name of the ref pointer in the props passed to the wrapped component |
-| initialValue | any    | the initial value of the ref.current                                     |
+| Parameter    | Type    | Description                                                              |
+| ------------ | ------- | ------------------------------------------------------------------------ |
+| refName      | keyof T | the name of the ref pointer in the props passed to the wrapped component |
+| initialValue | unknown | the initial value of the ref.current                                     |
 
 _Example_
 
+#### Typescript
+
+```Typescript
+import React, {MutableRefObject} from 'react';
+import {compose, withRef, withCallback} from '@truefit/bach';
+
+type Props = {
+  textBox1: MutableRefObject<HTMLInputElement>;
+  textBox2: MutableRefObject<HTMLInputElement>;
+
+  focus1: () => void;
+  focus2: () => void;
+};
+
+const Component = ({textBox1, textBox2, focus1, focus2}: Props) => (
+  <div>
+    <h1>With Ref</h1>
+    <div>
+      <input ref={textBox1} />
+      <button type="button" onClick={focus1}>
+        Focus Me
+      </button>
+    </div>
+    <div>
+      <input ref={textBox2} />
+      <button type="button" onClick={focus2}>
+        Focus Me
+      </button>
+    </div>
+  </div>
+);
+
+export default compose(
+  withRef('textBox1', null),
+  withRef('textBox2', null),
+
+  withCallback<Props>('focus1', ({textBox1}) => () => {
+    textBox1.current.focus();
+  }),
+  withCallback<Props>('focus2', ({textBox2}) => () => {
+    textBox2.current.focus();
+  }),
+)(Component);
 ```
+
+#### Javascript
+
+```Javascript
 import React from 'react';
 import {compose, withRef, withCallback} from '@truefit/bach';
 
@@ -490,21 +696,49 @@ _React Hook_
 
 [useRef](https://reactjs.org/docs/hooks-reference.html#useref)
 
-#### withState
+### withState
 
 Creates a stateful value, and a function to update it.
 
 _Helper Signature_
 
-| Parameter        | Type            | Description                                                                                                   |
-| ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------- |
-| stateName        | string          | the name of the state value in the props passed to the wrapped component                                      |
-| stateUpdaterName | string          | the name of the function in the props passed to the wrapped component that will update state when invoked     |
-| initialValue     | any OR function | the initial value of the state OR a function that receives `props` and returns the initial value of the state |
+| Parameter        | Type                | Description                                                                                                   |
+| ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------- |
+| stateName        | keyof T             | the name of the state value in the props passed to the wrapped component                                      |
+| stateUpdaterName | keyof T             | the name of the function in the props passed to the wrapped component that will update state when invoked     |
+| initialValue     | S or ((t?: T) => S) | the initial value of the state OR a function that receives `props` and returns the initial value of the state |
 
 _Example_
 
+#### Typescript
+
+```Typescript
+import React from 'react';
+import {compose, withState} from '@truefit/bach';
+
+type Props = {
+  count: number;
+  setCount: (value: number) => void;
+}
+
+const Component = ({count, setCount}: Props) => (
+  <div>
+    <h1>With State</h1>
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  </div>
+);
+
+export default compose(
+  withState<Props, number>('count', 'setCount', 0)
+)(Component);
 ```
+
+#### Javascript
+
+```Javascript
 import React from 'react';
 import {compose, withState} from '@truefit/bach';
 
@@ -518,12 +752,43 @@ const Component = ({count, setCount}) => (
   </div>
 );
 
-export default compose(withState('count', 'setCount', 0))(Component);
+export default compose(
+  withState('count', 'setCount', 0)
+)(Component);
 ```
 
 _Example (with initialValue function)_
 
+#### Typescript
+
+```Typescript
+import React from 'react';
+import PropTypes from 'prop-types';
+import {compose, withState} from '@truefit/bach';
+
+type Props = {
+  count: number;
+  setCount: (value: number) => void;
+}
+
+const Component = ({count, setCount}: Props) => (
+  <div>
+    <h1>With State</h1>
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  </div>
+);
+
+export default compose(
+  withState<Props>('count', 'setCount', () => 0)
+)(Component);
 ```
+
+#### Javascript
+
+```Javascript
 import React from 'react';
 import PropTypes from 'prop-types';
 import {compose, withState} from '@truefit/bach';
@@ -538,32 +803,73 @@ const Component = ({count, setCount}) => (
   </div>
 );
 
-Component.propTypes = {
-  initialCount: PropTypes.number,
-};
-
-export default compose(withState('count', 'setCount', ({initialCount}) => initialCount))(Component);
+export default compose(
+  withState('count', 'setCount', () => 0)
+)(Component);
 ```
 
 _React Hook_
 
 [useState](https://reactjs.org/docs/hooks-reference.html#usestate)
 
-#### withHook
+### withHook
 
 Allows you to map any hook into an enhancer to use into the compose chain.
 
 _Helper Signature_
 
-| Parameter       | Type                       | Description                                                                                                                                                                                                                                                                                         |
-| --------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| hook            | js function                | the hook you want to use                                                                                                                                                                                                                                                                            |
-| parameterValues | any or array               | the values that should be passed to they hook as parameters in the order they are to be passed. If you only have one parameter you may just pass the parameter. You may also pass a function to be lazily evaluated and passed props to produce the value                                           |
-| props           | string or array of strings | the names of the props returned by the hook. Should be a string if the hook returns an object or value (for example - useMemo), an array of strings if the hook returns an array of values (for example - useState), or it may be omitted if the hook has no return value (for example - useEffect) |
+| Parameter       | Type                                                     | Description                                                                                                                                                                                                                                                                                       |
+| --------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| hook            | Function                                                 | the hook you want to use                                                                                                                                                                                                                                                                          |
+| parameterValues | unknown or Array<unknown> or ((t?: T) => Array<unknown>) | the values that should be passed to they hook as parameters in the order they are to be passed. If you only have one parameter you may just pass the parameter. You may also pass a function to be lazily evaluated and passed props to produce the value                                         |
+| props           | string or Array<keyof T>                                 | the names of the props returned by the hook. Should be a string if the hook returns an object or value (for example - useMemo), an Array<keyof T> if the hook returns an array of values (for example - useState), or it may be omitted if the hook has no return value (for example - useEffect) |
 
 _Example_
 
+#### Typescript
+
+```Typescript
+import React, {useState, useMemo, useEffect} from 'react';
+import {compose, withHook} from '@truefit/bach';
+
+type Props = {
+  count: number;
+  setCount: (c: number) => void;
+
+  oneMore: number;
+};
+
+const Component = ({count, setCount, oneMore}: Props) => (
+  <div>
+    <h1>With Hook</h1>
+    <h2>Count: {count}</h2>
+    <h2>One More: {oneMore}</h2>
+    <div>
+      <button
+        type="button"
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        + 1
+      </button>
+    </div>
+  </div>
+);
+
+export default compose(
+  withHook<Props>(useState, 0, ['count', 'setCount']),
+  withHook<Props>(useMemo, ({count}: Props) => () => count + 1, 'oneMore'),
+
+  withHook<Props>(useEffect, ({count}: Props) => () => {
+    console.log(`Count ${count}`); // eslint-disable-line
+  }),
+)(Component);
 ```
+
+#### Javascript
+
+```Javascript
 import React, {useState, useMemo, useEffect} from 'react';
 import {compose, withHook} from '@truefit/bach';
 
@@ -582,12 +888,9 @@ export default compose(
   withHook(useState, 0, ['count', 'setCount']),
   withHook(useMemo, ({count}) => () => count + 1, 'oneMore'),
 
-  withHook(useEffect, [
-    ({count}) => () => {
-      console.log(`Count ${count}`);
-    },
-    ({count}) => [count],
-  ]),
+  withHook(useEffect, ({count}) => () => {
+    console.log(`Count ${count}`); // eslint-disable-line
+  }),
 )(Component);
 ```
 
@@ -597,13 +900,15 @@ Allows you to attach static props to the resultant HOC component. Bach will also
 
 _Helper Signature_
 
-| Parameter | Type      | Description                                                     |
-| --------- | --------- | --------------------------------------------------------------- |
-| props     | js object | an object containing the key-value pairs to use as static props |
+| Parameter | Type                     | Description                                                     |
+| --------- | ------------------------ | --------------------------------------------------------------- |
+| props     | {[key: string]: unknown} | an object containing the key-value pairs to use as static props |
 
 _Example_
 
-```
+#### Typescript
+
+```Typescript
 import React from 'react';
 import {compose, withStaticProps} from '@truefit/bach';
 
@@ -622,47 +927,86 @@ export default compose(
 )(Component);
 ```
 
-### Other enhancer libraries
+#### Javascript
+
+```Javascript
+import React from 'react';
+import {compose, withStaticProps} from '@truefit/bach';
+
+const Component = () => (
+  <div>
+    <h1>With Static Props</h1>
+  </div>
+);
+
+export default compose(
+  withStaticProps({
+    navigationOptions: {
+      headerTitle: 'Bach',
+    },
+  }),
+)(Component);
+```
+
+## Other enhancer libraries
 
 One of the guidelines mentioned above was to make it easy for others to add enhancers for their own projects. Below are a couple of "additional" libraries that we have developed for other libraries that we commonly use, but didn't want to be a part of the base dependencies.
 
-#### [Redux](https://github.com/TrueFit/bach-redux)
+### [Redux](https://github.com/TrueFit/bach-redux)
 
 This enhancer allows you to connect the component to your Redux store.
 
-#### [React Material](https://github.com/TrueFit/bach-react-material)
+### [React Material](https://github.com/TrueFit/bach-react-material)
 
 This enhancer allows you to use the styling HOC withStyles from the [React Material UI](https://material-ui.com/) library in a compositional approach.
 
-#### [Recompose](https://github.com/TrueFit/bach-recompose)
+### [Recompose](https://github.com/TrueFit/bach-recompose)
 
 This library implements many of the enhancers found in the recompose library that are not tightly tied to react hooks.
 
-### Creating your own enhancers
+## Creating your own enhancers
 
 We would love to see members of the community add their own enhancers. If you come up with one that is applicable to the larger community (for example, wrapping a different React-CSS framework), please contact us so that we can add it to the list above.
 
 To create your own enhancers, you need to pass a function to the compose method that returns a js object with the required properties. This is typically done as the result of a curried function, you can check the source code of existing enhancers for reference.
 
-#### Function Signature
+### Function Signature
 
-The function will be invoked with a js object. This object contains the following properties that we found to be helpful or required across multiple enhancers. You are not required to use anything from this object - not everything applies to every instance.
+Your enhance should follow the following signature:
+
+```Typescript
+type StringKeyCache = {[key: string]: unknown};
+type ComponentTransform = (component: FunctionComponent) => FunctionComponent;
+
+type EnhancerResult = {
+  dependencies: StringKeyCache;
+  initialize: string;
+  props: string[];
+  transformComponent?: ComponentTransform;
+};
+
+type EnhancerContext = {
+  component: ReactNode;
+  generateNewVariable: () => string;
+};
+
+type Enhancer = (context: EnhancerContext) => EnhancerResult;
+```
 
 | Property            | Type     | Description                                                                                                                                                                                                                       |
 | ------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | generateNewVariable | function | a utility function that will generate a random 16 character string that can be used as a variable name in your initialize code. These strings are guaranteed to be unique inside the scope of the single HOC component generated. |
 
-#### Return Object
+### Return Object
 
-| Property     | Type                | Description                                                                                                                                                                        |
-| ------------ | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| dependencies | js object           | a map of the dependencies for your enhancer. These will be available to your initialize code by the keys specified. The compose method reduces all keys to a single unique key set |
-| initialize   | string              | the code that will be added in line in order to the generated HOC                                                                                                                  |
-| props        | any                 | the properties that the code creates that need to be added to the overall property object that will be passed to the wrapped component                                             |
-| render       | string (optional)   | overrides the render statement (we leave the default render at the bottom in case this doesnt return)                                                                              |
-| post         | function (optional) | a function that is passed the resultant HOC, the function is expected to return an HOC to use                                                                                      |
+| Property           | Type                                                           | Description                                                                                                                                                                        |
+| ------------------ | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dependencies       | {[key: string]: unknown}                                       | a map of the dependencies for your enhancer. These will be available to your initialize code by the keys specified. The compose method reduces all keys to a single unique key set |
+| initialize         | string                                                         | the code that will be added in line in order to the generated HOC                                                                                                                  |
+| props              | string[]                                                       | the properties that the code creates that need to be added to the overall property object that will be passed to the wrapped component                                             |
+| transformComponent | (component: FunctionComponent) => FunctionComponent (optional) | a function that is passed the resultant HOC, the function is expected to return an HOC to use                                                                                      |
 
-#### Initialize
+### Initialize
 
 As mentioned above, we wanted to keep the levels of HOC to a max of one. To accomplish this goal, rather than have a series of functions, we need each enhancer to actually expose the code it requires to work. The compose method combines all of these string of code into a single HOC at runtime. Under the covers, compose uses [`new Function()`](https://remarkablemark.org/blog/2018/05/15/javascript-eval-vs-function/) to accomplish this transformation.
 

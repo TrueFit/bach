@@ -1,8 +1,8 @@
 import {PROPS} from '../constants';
-import {EnhancerContext, EnhancerResult} from '../types';
+import {EnhancerContext, EnhancerResult, StringKeyCache} from '../types';
 import {isFunction} from '../util';
 
-type ParameterValues<T> = unknown | Array<unknown> | ((t?: T) => Array<unknown>);
+type ParameterValues<T> = ((t?: T) => unknown) | unknown;
 type Props<T> = keyof T | Array<keyof T>;
 
 const generateInvoke = (hookAlias: string, params: {[key: string]: unknown}): string => {
@@ -51,15 +51,13 @@ const normalizeProps = <T>(props?: Props<T>): string[] => {
 const normalizedParameterValues = <T>(
   parameterValues: ParameterValues<T>,
   generateNewVariable: () => string,
-): {[key: string]: unknown} => {
-  const initial = {};
-
+): StringKeyCache => {
   const wrappedInArray = Array.isArray(parameterValues) ? parameterValues : [parameterValues];
-  const params = wrappedInArray.reduce((acc, value) => {
-    acc[generateNewVariable()] = value;
 
-    return acc;
-  }, initial);
+  const params: StringKeyCache = {};
+  wrappedInArray.forEach((value: unknown) => {
+    params[generateNewVariable()] = value;
+  });
 
   return params;
 };

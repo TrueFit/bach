@@ -3,7 +3,7 @@ import {PROPS} from '../constants';
 import {generateConditionCode} from '../util';
 import {EnhancerContext, EnhancerResult, DependencyList} from '../types';
 
-export default <T>(fn: (t?: T) => void | ((t?: T) => void), conditions?: DependencyList<T>) => ({
+export default <T>(fn: (t?: T) => unknown, conditions?: DependencyList<T>) => ({
   generateNewVariable,
 }: EnhancerContext): EnhancerResult => {
   const fnName = generateNewVariable();

@@ -14,9 +14,11 @@ const useFunctionAsState = <S>(stateValue: string, initialValueAlias: S): string
   );
   `;
 
-export default <T, S>(stateName: keyof T, stateUpdaterName: keyof T, initialValue: S) => ({
-  generateNewVariable,
-}: EnhancerContext): EnhancerResult => {
+export default <T, S>(
+  stateName: keyof T,
+  stateUpdaterName: keyof T,
+  initialValue: S | ((t?: T) => S),
+) => ({generateNewVariable}: EnhancerContext): EnhancerResult => {
   const stateValue = generateNewVariable();
   const initialValueAlias = generateNewVariable();
 
