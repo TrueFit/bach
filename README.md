@@ -45,6 +45,8 @@ yarn add @truefit/bach
 
 ### Basic Composition
 
+#### Typescript
+
 ```Typescript
 import React from 'react';
 import {compose, withCallback} from '@truefit/bach';
@@ -67,6 +69,8 @@ export default compose<Props>(
   }),
 )(Component);
 ```
+
+#### Javascript
 
 ```Javascript
 import React from 'react';
