@@ -8,6 +8,12 @@ The goal is to help create a codebase that is readable, flexible, testable, and 
 
 You can find a full React project with simple working examples of each hook, as well as more complex examples that combine hooks here: [https://github.com/TrueFit/bach-examples](https://github.com/TrueFit/bach-examples).
 
+## Version 2.0
+
+With the release of version 2.0, Bach has been updated to Typescript.
+
+We did our best to maintain backwards compatibility and believe we have. If you find something, please let us know.
+
 ## Conception
 
 At a high level, we liked the syntax that [Recompose](https://github.com/acdlite/recompose) enabled in our source. The advent of React hooks has forced us to move away from recompose since it has a couple of major drawbacks in this new world (no hooks, HOC hell, and the author deprecated it). We searched for a comparable library in the community, but were unable to find one that fit our needs.
@@ -39,7 +45,30 @@ yarn add @truefit/bach
 
 ### Basic Composition
 
+```Typescript
+import React from 'react';
+import {compose, withCallback} from '@truefit/bach';
+
+type Props = {
+  handeClick: () => void;
+}
+
+const Component = ({handleClick}: Props) => (
+  <div>
+    <button onClick={handleClick}>
+      Click Me
+    </button>
+  </div>
+);
+
+export default compose<Props>(
+  withCallback<Props>('handleClick', () => () => {
+    alert('Hello There');
+  }),
+)(Component);
 ```
+
+```Javascript
 import React from 'react';
 import {compose, withCallback} from '@truefit/bach';
 
@@ -88,15 +117,38 @@ Creates a memoized callback passed to component with the name specified.
 
 _Helper Signature_
 
-| Parameter    | Type             | Description                                                                                           |
-| ------------ | ---------------- | ----------------------------------------------------------------------------------------------------- |
-| callbackName | string           | the name of the callback in the props passed to the wrapped component                                 |
-| fn           | js function      | the function to invoke when the callback is invoked by the component                                  |
-| conditions   | array of strings | names of the properties on the props object react should restrict the revaluation of this callback to |
+| Parameter    | Type                  | Description                                                                                           |
+| ------------ | --------------------- | ----------------------------------------------------------------------------------------------------- |
+| callbackName | keyof T               | the name of the callback in the props passed to the wrapped component                                 |
+| fn           | (t?: T) => () => void | the function to invoke when the callback is invoked by the component                                  |
+| conditions   | Array<keyof T>        | names of the properties on the props object react should restrict the revaluation of this callback to |
 
 _Example 1_
 
+```Typescript
+import React from 'react';
+import {compose, withCallback} from '@truefit/bach';
+
+type Props = {
+  handeClick: () => void;
+}
+
+const Component = ({handleClick}: Props) => (
+  <div>
+    <button onClick={handleClick}>
+      Click Me
+    </button>
+  </div>
+);
+
+export default compose<Props>(
+  withCallback<Props>('handleClick', () => () => {
+    alert('Hello There');
+  }),
+)(Component);
 ```
+
+```Javascript
 import React from 'react';
 import {compose, withCallback} from '@truefit/bach';
 
@@ -117,7 +169,38 @@ export default compose(
 
 _Example 2_
 
+```Typescript
+import React from 'react';
+import {compose, withState, withCallback} from '@truefit/bach';
+
+type Props = {
+  count: number;
+  setCount: (n: number) => void;
+
+  alterCount: (n: number) => () => void;
+}
+
+const Component = ({count, alterCount}) => (
+  <div>
+    <h1>With Callback And State</h1>
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={alterCount(1)}>Increment</button>
+      <button onClick={alterCount(-1)}>Decrement</button>
+    </div>
+  </div>
+);
+
+export default compose(
+  withState<Props, number>('count', 'setCount', 0),
+
+  withCallback<Props>('alterCount', ({count, setCount}: Props) => (delta: number) => () => {
+    setCount(count + delta);
+  }),
+)(Component);
 ```
+
+```Javascript
 import React from 'react';
 import {compose, withState, withCallback} from '@truefit/bach';
 
@@ -574,7 +657,6 @@ The function will be invoked with a js object. This object contains the followin
 | props        | any                 | the properties that the code creates that need to be added to the overall property object that will be passed to the wrapped component                                             |
 | render       | string (optional)   | overrides the render statement (we leave the default render at the bottom in case this doesnt return)                                                                              |
 | post         | function (optional) | a function that is passed the resultant HOC, the function is expected to return an HOC to use                                                                                      |
-
 
 #### Initialize
 
