@@ -117,7 +117,7 @@ As discussed below, this library was built with React Hooks in mind, thus the ba
 
 Creates a memoized callback passed to component with the name specified.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter    | Type                  | Description                                                                                           |
 | ------------ | --------------------- | ----------------------------------------------------------------------------------------------------- |
@@ -242,7 +242,7 @@ _React Hook_
 
 Accepts a context object and returns the current context value for that context.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter       | Type                 | Description                                                                                              |
 | --------------- | -------------------- | -------------------------------------------------------------------------------------------------------- |
@@ -315,7 +315,7 @@ _React Hook_
 
 Accepts a function that contains imperative, possibly effect creating code.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter  | Type               | Description                                                                                     |
 | ---------- | ------------------ | ----------------------------------------------------------------------------------------------- |
@@ -370,7 +370,7 @@ _React Hook_
 
 Like withEffect, but used for the times when invocation cannot be deferred, thus it fires synchronously after all DOM mutations.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter  | Type               | Description                                                                                     |
 | ---------- | ------------------ | ----------------------------------------------------------------------------------------------- |
@@ -425,7 +425,7 @@ _React Hook_
 
 Creates a memoized value.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter  | Type               | Description                                                                                     |
 | ---------- | ------------------ | ----------------------------------------------------------------------------------------------- |
@@ -493,7 +493,7 @@ An alternative to useState. Accepts a reducer of type (state, action) => newStat
 
 @truefit/bach will create a dispatchProperty in props with the format `${reducerName}Dispatch`.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter    | Type                    | Description                                                                                                                                |
 | ------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -605,7 +605,7 @@ _React Hook_
 
 Creates a mutable ref object whose .current property is initialized to the passed argument (initialValue). The returned object will persist for the full lifetime of the component.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter    | Type    | Description                                                              |
 | ------------ | ------- | ------------------------------------------------------------------------ |
@@ -700,7 +700,7 @@ _React Hook_
 
 Creates a stateful value, and a function to update it.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter        | Type                | Description                                                                                                   |
 | ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -816,7 +816,7 @@ _React Hook_
 
 Allows you to map any hook into an enhancer to use into the compose chain.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter       | Type                                                     | Description                                                                                                                                                                                                                                                                                       |
 | --------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -898,7 +898,7 @@ export default compose(
 
 Allows you to attach static props to the resultant HOC component. Bach will also copy any static properties defined on the component passed to compose up to the generated HOC.
 
-_Helper Signature_
+_Enhancer Signature_
 
 | Parameter | Type                     | Description                                                     |
 | --------- | ------------------------ | --------------------------------------------------------------- |
