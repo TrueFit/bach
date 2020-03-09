@@ -1,12 +1,12 @@
 import {FunctionComponent, ReactNode} from 'react';
 
-export type StringKeyCache = {[key: string]: unknown};
+export type StringKeyMap<T> = {[key: string]: T};
 
 export type DependencyList<T> = Array<keyof T> | undefined;
-export type ComponentTransform = (component: FunctionComponent) => FunctionComponent;
+export type ComponentTransform = (component?: FunctionComponent) => FunctionComponent;
 
 export type EnhancerResult = {
-  dependencies: StringKeyCache;
+  dependencies: StringKeyMap<unknown>;
   initialize: string;
   props: string[];
   transformComponent?: ComponentTransform;

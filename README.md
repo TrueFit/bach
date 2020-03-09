@@ -119,11 +119,11 @@ Creates a memoized callback passed to component with the name specified.
 
 _Enhancer Signature_
 
-| Parameter    | Type                  | Description                                                                                           |
-| ------------ | --------------------- | ----------------------------------------------------------------------------------------------------- |
-| callbackName | keyof T               | the name of the callback in the props passed to the wrapped component                                 |
-| fn           | (t?: T) => () => void | the function to invoke when the callback is invoked by the component                                  |
-| conditions   | Array<keyof T>        | names of the properties on the props object react should restrict the revaluation of this callback to |
+| Parameter    | Type     | Description                                                                                           |
+| ------------ | -------- | ----------------------------------------------------------------------------------------------------- |
+| callbackName | string   | the name of the callback in the props passed to the wrapped component                                 |
+| fn           | function | the function to invoke when the callback is invoked by the component                                  |
+| conditions   | string[] | names of the properties on the props object react should restrict the revaluation of this callback to |
 
 _Example 1_
 
@@ -244,10 +244,10 @@ Accepts a context object and returns the current context value for that context.
 
 _Enhancer Signature_
 
-| Parameter       | Type                 | Description                                                                                              |
-| --------------- | -------------------- | -------------------------------------------------------------------------------------------------------- |
-| contextProperty | Array<keyof T>       | the names of the props in the context that are mapped to the props passed to the wrapped component       |
-| contextSource   | Context<T> or string | either the context object or the name of the prop in the HOC that points to the context to use as source |
+| Parameter       | Type              | Description                                                                                              |
+| --------------- | ----------------- | -------------------------------------------------------------------------------------------------------- |
+| contextProperty | string[]          | the names of the props in the context that are mapped to the props passed to the wrapped component       |
+| contextSource   | Context or string | either the context object or the name of the prop in the HOC that points to the context to use as source |
 
 _Example_
 
@@ -317,10 +317,10 @@ Accepts a function that contains imperative, possibly effect creating code.
 
 _Enhancer Signature_
 
-| Parameter  | Type               | Description                                                                                     |
-| ---------- | ------------------ | ----------------------------------------------------------------------------------------------- |
-| fn         | (t?: T) => unknown | the function to invoke when the values of properties change on the wrapped component            |
-| conditions | Array<keyof T>     | names of the properties on the props object react should restrict the firing of the function to |
+| Parameter  | Type     | Description                                                                                     |
+| ---------- | -------- | ----------------------------------------------------------------------------------------------- |
+| fn         | function | the function to invoke when the values of properties change on the wrapped component            |
+| conditions | string[] | names of the properties on the props object react should restrict the firing of the function to |
 
 _Example_
 
@@ -372,10 +372,10 @@ Like withEffect, but used for the times when invocation cannot be deferred, thus
 
 _Enhancer Signature_
 
-| Parameter  | Type               | Description                                                                                     |
-| ---------- | ------------------ | ----------------------------------------------------------------------------------------------- |
-| fn         | (t?: T) => unknown | the function to invoke when the values of properties change on the wrapped component            |
-| conditions | Array<keyof T>     | names of the properties on the props object react should restrict the firing of the function to |
+| Parameter  | Type     | Description                                                                                     |
+| ---------- | -------- | ----------------------------------------------------------------------------------------------- |
+| fn         | function | the function to invoke when the values of properties change on the wrapped component            |
+| conditions | string[] | names of the properties on the props object react should restrict the firing of the function to |
 
 _Example_
 
@@ -427,11 +427,11 @@ Creates a memoized value.
 
 _Enhancer Signature_
 
-| Parameter  | Type               | Description                                                                                     |
-| ---------- | ------------------ | ----------------------------------------------------------------------------------------------- |
-| memoName   | keyof T            | the name of the memoized value in the props passed to the wrapped component                     |
-| fn         | (t?: T) => unknown | the function to invoke to produce the memoized value                                            |
-| conditions | Array<keyof T>     | names of the properties on the props object react should restrict the firing of the function to |
+| Parameter  | Type     | Description                                                                                     |
+| ---------- | -------- | ----------------------------------------------------------------------------------------------- |
+| memoName   | string   | the name of the memoized value in the props passed to the wrapped component                     |
+| fn         | function | the function to invoke to produce the memoized value                                            |
+| conditions | string[] | names of the properties on the props object react should restrict the firing of the function to |
 
 _Example_
 
@@ -495,12 +495,12 @@ An alternative to useState. Accepts a reducer of type (state, action) => newStat
 
 _Enhancer Signature_
 
-| Parameter    | Type                    | Description                                                                                                                                |
-| ------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| reducerName  | keyof T                 | the name of the reducer value in the props passed to the wrapped component                                                                 |
-| reducer      | Reducer<S, A>           | the reducer function that conforms to the signature (state, action) => newState                                                            |
-| initialValue | S                       | the initial value of the reducer                                                                                                           |
-| init         | (s?: S) => S (optional) | a function that returns the initial value of the reducer the 1st time the reducer is invoked. Used for lazy initialization of the reducer. |
+| Parameter    | Type     | Description                                                                                                                                |
+| ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| reducerName  | string   | the name of the reducer value in the props passed to the wrapped component                                                                 |
+| reducer      | function | the reducer function that conforms to the signature (state, action) => newState                                                            |
+| initialValue | any      | the initial value of the reducer                                                                                                           |
+| init         | function | a function that returns the initial value of the reducer the 1st time the reducer is invoked. Used for lazy initialization of the reducer. |
 
 _Example_
 
@@ -607,10 +607,10 @@ Creates a mutable ref object whose .current property is initialized to the passe
 
 _Enhancer Signature_
 
-| Parameter    | Type    | Description                                                              |
-| ------------ | ------- | ------------------------------------------------------------------------ |
-| refName      | keyof T | the name of the ref pointer in the props passed to the wrapped component |
-| initialValue | unknown | the initial value of the ref.current                                     |
+| Parameter    | Type   | Description                                                              |
+| ------------ | ------ | ------------------------------------------------------------------------ |
+| refName      | string | the name of the ref pointer in the props passed to the wrapped component |
+| initialValue | any    | the initial value of the ref.current                                     |
 
 _Example_
 
@@ -702,11 +702,11 @@ Creates a stateful value, and a function to update it.
 
 _Enhancer Signature_
 
-| Parameter        | Type                | Description                                                                                                   |
-| ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------- |
-| stateName        | keyof T             | the name of the state value in the props passed to the wrapped component                                      |
-| stateUpdaterName | keyof T             | the name of the function in the props passed to the wrapped component that will update state when invoked     |
-| initialValue     | S or ((t?: T) => S) | the initial value of the state OR a function that receives `props` and returns the initial value of the state |
+| Parameter        | Type            | Description                                                                                                   |
+| ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------- |
+| stateName        | string          | the name of the state value in the props passed to the wrapped component                                      |
+| stateUpdaterName | string          | the name of the function in the props passed to the wrapped component that will update state when invoked     |
+| initialValue     | any or function | the initial value of the state OR a function that receives `props` and returns the initial value of the state |
 
 _Example_
 
@@ -818,11 +818,11 @@ Allows you to map any hook into an enhancer to use into the compose chain.
 
 _Enhancer Signature_
 
-| Parameter       | Type                                                     | Description                                                                                                                                                                                                                                                                                       |
-| --------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| hook            | Function                                                 | the hook you want to use                                                                                                                                                                                                                                                                          |
-| parameterValues | unknown or Array<unknown> or ((t?: T) => Array<unknown>) | the values that should be passed to they hook as parameters in the order they are to be passed. If you only have one parameter you may just pass the parameter. You may also pass a function to be lazily evaluated and passed props to produce the value                                         |
-| props           | string or Array<keyof T>                                 | the names of the props returned by the hook. Should be a string if the hook returns an object or value (for example - useMemo), an Array<keyof T> if the hook returns an array of values (for example - useState), or it may be omitted if the hook has no return value (for example - useEffect) |
+| Parameter       | Type               | Description                                                                                                                                                                                                                                                                                |
+| --------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| hook            | function           | the hook you want to use                                                                                                                                                                                                                                                                   |
+| parameterValues | any or function    | the values that should be passed to they hook as parameters in the order they are to be passed. If you only have one parameter you may just pass the parameter. You may also pass a function to be lazily evaluated and passed props to produce the value                                  |
+| props           | string or string[] | the names of the props returned by the hook. Should be a string if the hook returns an object or value (for example - useMemo), an string[]if the hook returns an array of values (for example - useState), or it may be omitted if the hook has no return value (for example - useEffect) |
 
 _Example_
 
@@ -900,9 +900,9 @@ Allows you to attach static props to the resultant HOC component. Bach will also
 
 _Enhancer Signature_
 
-| Parameter | Type                     | Description                                                     |
-| --------- | ------------------------ | --------------------------------------------------------------- |
-| props     | {[key: string]: unknown} | an object containing the key-value pairs to use as static props |
+| Parameter | Type   | Description                                                     |
+| --------- | ------ | --------------------------------------------------------------- |
+| props     | object | an object containing the key-value pairs to use as static props |
 
 _Example_
 

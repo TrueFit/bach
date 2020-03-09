@@ -1,7 +1,7 @@
 import {FunctionComponent} from 'react';
-import {EnhancerResult, StringKeyCache} from '../types';
+import {EnhancerResult, StringKeyMap} from '../types';
 
-export default (props: StringKeyCache) => (): EnhancerResult => {
+export default (props: StringKeyMap<unknown>) => (): EnhancerResult => {
   return {
     dependencies: {},
     initialize: '',

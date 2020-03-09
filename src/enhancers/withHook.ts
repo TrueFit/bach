@@ -1,5 +1,5 @@
 import {PROPS} from '../constants';
-import {EnhancerContext, EnhancerResult, StringKeyCache} from '../types';
+import {EnhancerContext, EnhancerResult, StringKeyMap} from '../types';
 import {isFunction} from '../util';
 
 type ParameterValues<T> = ((t?: T) => unknown) | unknown;
@@ -51,10 +51,10 @@ const normalizeProps = <T>(props?: Props<T>): string[] => {
 const normalizedParameterValues = <T>(
   parameterValues: ParameterValues<T>,
   generateNewVariable: () => string,
-): StringKeyCache => {
+): StringKeyMap<unknown> => {
   const wrappedInArray = Array.isArray(parameterValues) ? parameterValues : [parameterValues];
 
-  const params: StringKeyCache = {};
+  const params: StringKeyMap<unknown> = {};
   wrappedInArray.forEach((value: unknown) => {
     params[generateNewVariable()] = value;
   });

@@ -15,7 +15,6 @@ const hoistStaticProps = (component: ReactNode, hoc: Function): void => {
 };
 
 export default <T>(results: EnhancerCombination, component: ReactNode): FunctionComponent<T> => {
-  const declare = 'const';
   const keys = Object.keys(results.dependencies);
   const assignments = generateAssignments([...keys, REACT, COMPONENT], 'this');
   const blocks = results.blocks.join('\n');
@@ -25,7 +24,7 @@ export default <T>(results: EnhancerCombination, component: ReactNode): Function
     `
       ${assignments}
   
-      ${declare} ${PROPS} = Object.assign({}, inboundProps);
+      let ${PROPS} = Object.assign({}, inboundProps);
 
       ${blocks}
 
