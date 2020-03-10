@@ -1,8 +1,11 @@
 import {useLayoutEffect} from 'react';
-import {PROPS} from '../util/constants';
-import generateConditionCode from '../util/generateConditionCode';
+import {PROPS} from '../constants';
+import {generateConditionCode} from '../util';
+import {EnhancerContext, EnhancerResult, DependencyList} from '../types';
 
-export default (fn, conditions) => ({generateNewVariable}) => {
+export default <T>(fn: (t?: T) => void | ((t?: T) => void), conditions?: DependencyList<T>) => ({
+  generateNewVariable,
+}: EnhancerContext): EnhancerResult => {
   const fnName = generateNewVariable();
   const conditionCode = generateConditionCode(conditions);
 

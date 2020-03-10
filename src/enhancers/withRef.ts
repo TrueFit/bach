@@ -1,6 +1,9 @@
 import {useRef} from 'react';
+import {EnhancerContext, EnhancerResult} from '../types';
 
-export default (refName, initialValue) => ({generateNewVariable}) => {
+export default <T>(refName: keyof T, initialValue: unknown) => ({
+  generateNewVariable,
+}: EnhancerContext): EnhancerResult => {
   const initialValueAlias = generateNewVariable();
 
   return {
@@ -9,6 +12,6 @@ export default (refName, initialValue) => ({generateNewVariable}) => {
       [initialValueAlias]: initialValue,
     },
     initialize: `const ${refName} = useRef(${initialValueAlias});`,
-    props: [refName],
+    props: [refName as string],
   };
 };

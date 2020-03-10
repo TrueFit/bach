@@ -1,8 +1,12 @@
-import {useReducer} from 'react';
+import {useReducer, Reducer} from 'react';
+import {EnhancerContext, EnhancerResult} from '../types';
 
-export default (reducerName, reducer, initialValue, init) => ({
-  generateNewVariable,
-}) => {
+export default <T, S, A>(
+  reducerName: keyof T,
+  reducer: Reducer<S, A>,
+  initialValue: S,
+  init?: (v?: S) => S,
+) => ({generateNewVariable}: EnhancerContext): EnhancerResult => {
   const reducerDispatch = `${reducerName}Dispatch`;
   const reducerValue = generateNewVariable();
   const reducerAlias = generateNewVariable();
@@ -22,6 +26,6 @@ export default (reducerName, reducer, initialValue, init) => ({
       const ${reducerName} = ${reducerValue}[0];
       const ${reducerDispatch} = ${reducerValue}[1];
     `,
-    props: [reducerName, reducerDispatch],
+    props: [reducerName as string, reducerDispatch],
   };
 };
