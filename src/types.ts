@@ -3,7 +3,7 @@ import {FunctionComponent, ReactNode} from 'react';
 export type StringKeyMap<T> = {[key: string]: T};
 
 export type DependencyList<T> = Array<keyof T> | undefined;
-export type ComponentTransform = (component?: FunctionComponent) => FunctionComponent;
+export type ComponentTransform = (component: FunctionComponent | undefined) => FunctionComponent;
 
 export type EnhancerResult = {
   dependencies: StringKeyMap<unknown>;

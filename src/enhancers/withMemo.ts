@@ -5,7 +5,7 @@ import {EnhancerContext, EnhancerResult, DependencyList} from '../types';
 
 export default <T>(
   memoValueName: keyof T,
-  fn: (t?: T) => unknown,
+  fn: (t: T | undefined) => unknown,
   conditions?: DependencyList<T>,
 ) => ({generateNewVariable}: EnhancerContext): EnhancerResult => {
   const fnName = generateNewVariable();

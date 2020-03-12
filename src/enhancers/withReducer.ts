@@ -5,7 +5,7 @@ export default <T, S, A>(
   reducerName: keyof T,
   reducer: Reducer<S, A>,
   initialValue: S,
-  init?: (v?: S) => S,
+  init?: (v: S | undefined) => S,
 ) => ({generateNewVariable}: EnhancerContext): EnhancerResult => {
   const reducerDispatch = `${reducerName}Dispatch`;
   const reducerValue = generateNewVariable();

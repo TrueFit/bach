@@ -5,7 +5,7 @@ import {generateConditionCode} from '../util';
 
 export default <T>(
   callbackName: keyof T,
-  fn: (t: T) => Function,
+  fn: (t: T | undefined) => Function,
   conditions?: DependencyList<T>,
 ) => ({generateNewVariable}: EnhancerContext): EnhancerResult => {
   const fnName = generateNewVariable();

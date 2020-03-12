@@ -17,7 +17,7 @@ const useFunctionAsState = <S>(stateValue: string, initialValueAlias: S): string
 export default <T, S>(
   stateName: keyof T,
   stateUpdaterName: keyof T,
-  initialValue: S | ((t?: T) => S),
+  initialValue: S | ((t: T | undefined) => S),
 ) => ({generateNewVariable}: EnhancerContext): EnhancerResult => {
   const stateValue = generateNewVariable();
   const initialValueAlias = generateNewVariable();
