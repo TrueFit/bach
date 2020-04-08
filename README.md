@@ -948,6 +948,70 @@ export default compose(
 )(Component);
 ```
 
+### Composing Enhancers
+
+Sometimes it is helpful to be able to group enhancers into a named object that can be used across multiple components in your codebase. To support this, bach exposes the exposes the composeEnhancers function (you could alternatively use a native array, but we think this reads better).
+
+_Example_
+
+#### Typescript
+
+```Typescript
+import React from 'react';
+import {compose, composeEnhancers, withCallback} from '@truefit/bach';
+import {withActions, withSelector} from '@truefit/bach-redux';
+import {withStyles} from '@truefit/bach-material-ui';
+
+const Component = () => (
+  <div>
+    <h1>Headline</h1>
+  </div>
+);
+
+const withArticles = composeEnhancers(
+  withActions({loadArticles}),
+  withSelector('articles', articlesSelector),
+);
+
+export default compose(
+  withArticles,
+  withStyles({
+    container: {
+      width: 100,
+    }
+  }),
+);
+```
+
+#### Javascript
+
+```Javascript
+import React from 'react';
+import {compose, composeEnhancers, withCallback} from '@truefit/bach';
+import {withActions, withSelector} from '@truefit/bach-redux';
+import {withStyles} from '@truefit/bach-material-ui';
+
+const Component = () => (
+  <div>
+    <h1>Headline</h1>
+  </div>
+);
+
+const withArticles = composeEnhancers(
+  withActions({loadArticles}),
+  withSelector('articles', articlesSelector),
+);
+
+export default compose(
+  withArticles,
+  withStyles({
+    container: {
+      width: 100,
+    }
+  }),
+);
+```
+
 ## Other enhancer libraries
 
 One of the guidelines mentioned above was to make it easy for others to add enhancers for their own projects. Below are a couple of "additional" libraries that we have developed for other libraries that we commonly use, but didn't want to be a part of the base dependencies.

@@ -1,13 +1,16 @@
 import {ReactNode, FunctionComponent} from 'react';
-import {Enhancer, EnhancerContext} from './types';
+import {Enhancer, EnhancerContext, EnhancerList} from './types';
 import {
+  flatten,
   generateNewVariable,
   generateHOCFunction,
   combineEnhancerResults,
   transformHOCFunction,
 } from './util';
 
-export default <T>(...enhancers: Enhancer[]): ((component: ReactNode) => FunctionComponent<T>) => (
+export default <T>(
+  ...enhancers: EnhancerList
+): ((component: ReactNode) => FunctionComponent<T>) => (
   component: FunctionComponent,
 ): FunctionComponent<T> => {
   const context: EnhancerContext = {
@@ -15,7 +18,8 @@ export default <T>(...enhancers: Enhancer[]): ((component: ReactNode) => Functio
     generateNewVariable: generateNewVariable(),
   };
 
-  const results = combineEnhancerResults(enhancers.map(enhancer => enhancer(context)));
+  const enhancersArray = flatten<Enhancer>(enhancers, Infinity);
+  const results = combineEnhancerResults(enhancersArray.map(enhancer => enhancer(context)));
   const originalHoc = generateHOCFunction(results, component);
   const hoc = transformHOCFunction(originalHoc, results.componentTransforms);
 
