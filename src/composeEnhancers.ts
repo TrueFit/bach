@@ -1,3 +1,4 @@
-import {Enhancer} from './types';
+import {Enhancer, EnhancerList} from './types';
+import {flatten} from './util';
 
-export default (...enhancers: Enhancer[]): Enhancer[] => enhancers;
+export default (...enhancers: EnhancerList): Enhancer[] => flatten(enhancers);

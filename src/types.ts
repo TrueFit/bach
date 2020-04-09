@@ -19,9 +19,4 @@ export type EnhancerContext = {
 
 export type Enhancer = (context: EnhancerContext) => EnhancerResult;
 
-export type EnhancerList =
-  | Enhancer[]
-  | (Enhancer | Enhancer[])[]
-  | (Enhancer | (Enhancer | Enhancer[])[])[]
-  | (Enhancer | (Enhancer | (Enhancer | Enhancer[])[])[])[]
-  | (Enhancer | (Enhancer | (Enhancer | (Enhancer | Enhancer[])[])[])[])[];
+export type EnhancerList = Enhancer[] | (Enhancer | Enhancer[])[];
