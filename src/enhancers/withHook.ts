@@ -15,9 +15,7 @@ const generateInvoke = (hookAlias: string, params: {[key: string]: unknown}): st
     return p;
   };
 
-  return `${hookAlias}(${Object.keys(params)
-    .map(mapParam)
-    .join(', ')})`;
+  return `${hookAlias}(${Object.keys(params).map(mapParam).join(', ')})`;
 };
 
 const generateContainerCode = <T>(props: Props<T>, generateNewVariable: () => string): string[] => {

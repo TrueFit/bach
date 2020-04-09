@@ -15,7 +15,7 @@ export default <T>(results: EnhancerResult[]): EnhancerCombination => {
   };
 
   const generateAssignments = (variables: string[]): string =>
-    variables.map(x => `${PROPS}.${x} = ${x};`).join('\n');
+    variables.map((x) => `${PROPS}.${x} = ${x};`).join('\n');
 
   return results.reduce((acc: EnhancerCombination, item: EnhancerResult): EnhancerCombination => {
     acc.dependencies = Object.assign(acc.dependencies, item.dependencies);

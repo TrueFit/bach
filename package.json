@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "format": "prettier --write **/*.{js,ts,tsx,json}",
+    "format": "prettier --write **/*.ts",
     "lint": "eslint src/**/*.ts",
     "clean-build": "rm -rf ./build",
     "compile": "tsc -p .",

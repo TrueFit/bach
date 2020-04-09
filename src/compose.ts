@@ -19,7 +19,7 @@ export default <T>(
   };
 
   const enhancersArray = flatten<Enhancer>(enhancers, Infinity);
-  const results = combineEnhancerResults(enhancersArray.map(enhancer => enhancer(context)));
+  const results = combineEnhancerResults(enhancersArray.map((enhancer) => enhancer(context)));
   const originalHoc = generateHOCFunction(results, component);
   const hoc = transformHOCFunction(originalHoc, results.componentTransforms);
 
