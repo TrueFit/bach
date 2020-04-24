@@ -1,6 +1,6 @@
 {
   "name": "@truefit/bach",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "compose your react components in style",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

@@ -1,4 +1,4 @@
-export {default as compose} from './compose';
+export {compose} from './compose';
 export {default as composeEnhancers} from './composeEnhancers';
 
 export * from './constants';
