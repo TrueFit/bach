@@ -9,7 +9,7 @@ export default (props: StringKeyMap<unknown>) => (): EnhancerResult => {
 
     transformComponent: (component: FunctionComponent): FunctionComponent => {
       Object.keys(props).forEach((key: string) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         // eslint-disable-next-line no-param-reassign
         component[key] = props[key];

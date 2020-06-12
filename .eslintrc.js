@@ -12,6 +12,7 @@ module.exports = {
   },
   rules: {
     'import/no-named-as-default': 0,
+    '@typescript-eslint/ban-types': 0,
   },
   ignorePatterns: ['node_modules/', 'bin/', 'build/', 'docs/'],
 };

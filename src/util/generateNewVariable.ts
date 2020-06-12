@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 /* eslint-disable no-bitwise */
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const CHARACTERS: string[] = [...'_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'];
 const LENGTH = 16;
