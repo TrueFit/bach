@@ -1,9 +1,10 @@
-import {EnhancerResult, ComponentTransform} from '../types';
+import {EnhancerResult, ComponentTransform, RenderTransform} from '../types';
 import {PROPS} from '../constants';
 
 export type EnhancerCombination = {
   dependencies: object;
   blocks: string[];
+  renderTransforms: RenderTransform[];
   componentTransforms: ComponentTransform[];
 };
 
@@ -11,6 +12,7 @@ export default <T>(results: EnhancerResult[]): EnhancerCombination => {
   const initial = {
     dependencies: {},
     blocks: Array<string>(),
+    renderTransforms: Array<RenderTransform>(),
     componentTransforms: Array<ComponentTransform>(),
   };
 
@@ -21,6 +23,10 @@ export default <T>(results: EnhancerResult[]): EnhancerCombination => {
     acc.dependencies = Object.assign(acc.dependencies, item.dependencies);
     acc.blocks.push(item.initialize);
     acc.blocks.push(generateAssignments(item.props));
+
+    if (item.transformRender) {
+      acc.renderTransforms.push(item.transformRender);
+    }
 
     if (item.transformComponent) {
       acc.componentTransforms.push(item.transformComponent);
