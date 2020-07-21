@@ -7,7 +7,7 @@ export default <T>(conditions?: DependencyList<T>): string => {
   }
 
   if (conditions.length === 0) {
-    return '[]';
+    return '';
   }
 
   return (conditions as Array<keyof T>).map((x) => `${PROPS}.${x}`).join(',');
