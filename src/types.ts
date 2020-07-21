@@ -2,7 +2,7 @@ import {FunctionComponent, ReactNode} from 'react';
 
 export type StringKeyMap<T> = {[key: string]: T};
 
-export type DependencyList<T> = Array<keyof T> | [] | undefined;
+export type DependencyList<T> = Array<keyof T> | Array<undefined>;
 export type ComponentTransform = (component: FunctionComponent | undefined) => FunctionComponent;
 export type RenderTransform = (previousStatement: string | undefined) => string;
 
