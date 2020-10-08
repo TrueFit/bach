@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import {ReactNode, FunctionComponent} from 'react';
 import {Enhancer, EnhancerContext, EnhancerList} from './types';
