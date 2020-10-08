@@ -8,7 +8,7 @@ export type EnhancerCombination = {
   componentTransforms: ComponentTransform[];
 };
 
-export default <T>(results: EnhancerResult[]): EnhancerCombination => {
+export default (results: EnhancerResult[]): EnhancerCombination => {
   const initial = {
     dependencies: {},
     blocks: Array<string>(),
