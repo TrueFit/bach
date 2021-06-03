@@ -1,6 +1,6 @@
 {
   "name": "@truefit/bach",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "compose your react components in style",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,7 +30,7 @@
   ],
   "homepage": "https://github.com/TrueFit/bach#readme",
   "peerDependencies": {
-    "react": "^16.x"
+    "react": "16.x"
   },
   "devDependencies": {
     "@types/node": "^14.11.5",
