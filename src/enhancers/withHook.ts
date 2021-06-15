@@ -60,25 +60,24 @@ const normalizedParameterValues = <T>(
   return params;
 };
 
-export default <T>(hook: Function, parameterValues: ParameterValues<T>, props?: Props<T>) => ({
-  generateNewVariable,
-}: EnhancerContext): EnhancerResult => {
-  const hookAlias = generateNewVariable();
+export default <T>(hook: Function, parameterValues: ParameterValues<T>, props?: Props<T>) =>
+  ({generateNewVariable}: EnhancerContext): EnhancerResult => {
+    const hookAlias = generateNewVariable();
 
-  const params = normalizedParameterValues(parameterValues, generateNewVariable);
+    const params = normalizedParameterValues(parameterValues, generateNewVariable);
 
-  const containerCoder = generateContainerCode(props, generateNewVariable);
-  const invokeCode = generateInvoke(hookAlias, params);
+    const containerCoder = generateContainerCode(props, generateNewVariable);
+    const invokeCode = generateInvoke(hookAlias, params);
 
-  return {
-    dependencies: {
-      [hookAlias]: hook,
-      ...params,
-    },
-    initialize: `
+    return {
+      dependencies: {
+        [hookAlias]: hook,
+        ...params,
+      },
+      initialize: `
       ${containerCoder[0]}${invokeCode};
       ${containerCoder[1]}
     `,
-    props: normalizeProps(props),
+      props: normalizeProps(props),
+    };
   };
-};
