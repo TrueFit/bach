@@ -35,8 +35,8 @@ export default <T, S>(
       },
       initialize: `
       ${useStateCode}
-      const ${stateName} = ${stateValue}[0];
-      const ${stateUpdaterName} = ${stateValue}[1];
+      const ${String(stateName)} = ${stateValue}[0];
+      const ${String(stateUpdaterName)} = ${stateValue}[1];
     `,
       props: [stateName as string, stateUpdaterName as string],
     };

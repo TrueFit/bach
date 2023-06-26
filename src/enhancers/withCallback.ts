@@ -17,7 +17,9 @@ export default <T>(
         useCallback,
         [fnName]: fn,
       },
-      initialize: `const ${callbackName} = useCallback(${fnName}(${PROPS}), [${conditionCode}]);`,
+      initialize: `const ${String(
+        callbackName,
+      )} = useCallback(${fnName}(${PROPS}), [${conditionCode}]);`,
       props: [callbackName as string],
     };
   };

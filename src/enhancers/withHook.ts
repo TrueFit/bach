@@ -20,7 +20,7 @@ const generateInvoke = (hookAlias: string, params: {[key: string]: unknown}): st
 
 const generateContainerCode = <T>(props: Props<T>, generateNewVariable: () => string): string[] => {
   if (!Array.isArray(props)) {
-    return [`const ${props} = `, ''];
+    return [`const ${String(props)} = `, ''];
   }
 
   if (props.length === 0) {
@@ -30,7 +30,7 @@ const generateContainerCode = <T>(props: Props<T>, generateNewVariable: () => st
   const resultAlias = generateNewVariable();
   return [
     `const ${resultAlias} = `,
-    props.map((p, i) => `const ${p} = ${resultAlias}[${i}];`).join('\n'),
+    props.map((p, i) => `const ${String(p)} = ${resultAlias}[${i}];`).join('\n'),
   ];
 };
 

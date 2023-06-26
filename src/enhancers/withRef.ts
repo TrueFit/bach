@@ -10,7 +10,7 @@ export default <T>(refName: keyof T, initialValue: unknown) =>
         useRef,
         [initialValueAlias]: initialValue,
       },
-      initialize: `const ${refName} = useRef(${initialValueAlias});`,
+      initialize: `const ${String(refName)} = useRef(${initialValueAlias});`,
       props: [refName as string],
     };
   };

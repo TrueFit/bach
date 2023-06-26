@@ -8,7 +8,7 @@ export default <T, S, A>(
     init?: (v: S | undefined) => S,
   ) =>
   ({generateNewVariable}: EnhancerContext): EnhancerResult => {
-    const reducerDispatch = `${reducerName}Dispatch`;
+    const reducerDispatch = `${String(reducerName)}Dispatch`;
     const reducerValue = generateNewVariable();
     const reducerAlias = generateNewVariable();
 
@@ -24,7 +24,7 @@ export default <T, S, A>(
       },
       initialize: `
       const ${reducerValue} = useReducer(${reducerAlias}, ${initialValueAlias}, ${initAlias});
-      const ${reducerName} = ${reducerValue}[0];
+      const ${String(reducerName)} = ${reducerValue}[0];
       const ${reducerDispatch} = ${reducerValue}[1];
     `,
       props: [reducerName as string, reducerDispatch],

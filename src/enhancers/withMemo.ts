@@ -17,7 +17,7 @@ export default <T>(
         useMemo,
         [fnName]: fn,
       },
-      initialize: `const ${memoValueName} = useMemo(function () {
+      initialize: `const ${String(memoValueName)} = useMemo(function () {
         return ${fnName}(${PROPS});
       }, [${conditionCode}]);`,
       props: [memoValueName as string],

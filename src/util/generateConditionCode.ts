@@ -10,5 +10,5 @@ export default <T>(conditions?: DependencyList<T>): string => {
     return '';
   }
 
-  return (conditions as Array<keyof T>).map((x) => `${PROPS}.${x}`).join(',');
+  return (conditions as Array<keyof T>).map((x) => `${PROPS}.${String(x)}`).join(',');
 };

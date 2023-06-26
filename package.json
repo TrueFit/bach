@@ -1,6 +1,6 @@
 {
   "name": "@truefit/bach",
-  "version": "2.1.0",
+  "version": "2.5.1",
   "description": "compose your react components in style",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,23 +30,23 @@
   ],
   "homepage": "https://github.com/TrueFit/bach#readme",
   "peerDependencies": {
-    "react": "17.x"
+    "react": "18.x"
   },
   "devDependencies": {
-    "@types/node": "^15.12.2",
-    "@types/react": "^17.0.11",
-    "@typescript-eslint/eslint-plugin": "^4.27.0",
-    "@typescript-eslint/parser": "^4.27.0",
-    "eslint": "^7.28.0",
-    "eslint-config-airbnb-typescript-prettier": "^4.2.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.3.1",
-    "react": "^17.0.2",
-    "ts-node": "^10.0.0",
-    "typescript": "^4.3.2"
+    "@types/node": "^20.3.1",
+    "@types/react": "^18.2.14",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-config-airbnb-typescript-prettier": "^5.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.8",
+    "react": "^18.2.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.3"
   }
 }
